@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include "../common/header.html" %}
+    <link type="text/css" rel="stylesheet" href="{{ static_url('css/admin.css') }}" media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="{{ static_url('admin/write/write.css') }}" media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="{{ static_url('css/editor.css') }}" media="screen,projection"/>
+    <title>撰写文章</title>
+</head>
+
+<main>
+    {% include "../common/sidebar.html" %}
+    {% include "../common/navbar.html" %}
+    <div class="row">
+        <div id="wrapper" class="col s12">
+            <div class="input-field col s12">
+                <input placeholder="填写文章标题" id="title" type="text" class="col s4" style="text-align: center">
+            </div>
+            <div id="editor-wrapper" class="col s12 m6">
+                <textarea id="editor" onkeyup="compile()"></textarea>
+            </div>
+            <div id="preview-wrapper" class="col s12 m6 hide-on-med-and-down">
+                <div id="preview"></div>
+            </div>
+        </div>
+    </div>
+
+</main>
+<script type="text/javascript" src="//cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="{{ static_url('js/materialize.min.js') }}"></script>
+<script type="text/javascript" src="//cdn.staticfile.org/showdown/1.6.4/showdown.min.js"></script>
+<script type="text/javascript" src="{{ static_url('admin/write/editor.js') }}"></script>
+
+</html>
