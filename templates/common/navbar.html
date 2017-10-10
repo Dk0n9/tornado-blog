@@ -1,6 +1,22 @@
 <div class="navbar-fixed">
-    <nav class="blue-grey" style="max-height: 50px;">
+    <nav>
         <div class="nav-wrapper blue-grey darken-1">
+            <div class="row">
+                <div class="col s12">
+                    <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+                    <ul class="hide-on-med-and-down">
+                        <li><a href="{{ reverse_url('adminIndex') }}" class="waves-effect"><i class="material-icons left">dashboard</i>仪表盘</a></li>
+                        <li><a href="{{ reverse_url('adminWrite') }}" class="waves-effect"><i class="material-icons left">edit</i>撰写文章</a></li>
+                        <li class="right"><a href="logout"><i class="material-icons right">exit_to_app</i>注销</a></li>
+                    </ul>
+                </div>
+            </div>
+            <ul class="side-nav" id="mobile-demo">
+                <li class="blue-grey darken-1" style="height: 56px"></li>
+                <li><a href="{{ reverse_url('adminIndex') }}" class="waves-effect"><i class="material-icons left">dashboard</i>仪表盘</a></li>
+                <li><a href="{{ reverse_url('adminWrite') }}" class="waves-effect"><i class="material-icons left">edit</i>撰写文章</a></li>
+                <li><a href="logout"><i class="material-icons left">exit_to_app</i>注销</a></li>
+            </ul>
         </div>
     </nav>
 </div>
