@@ -1,21 +1,19 @@
-.side-nav {
-    width: 300px;
-}
-
-header, main, footer {
-    padding-left: 300px;
-}
-
 nav {
     margin-bottom: 1.5rem;
 }
 
-@media only screen and (max-width : 992px) {
-    header, main, footer {
-        padding-left: 0;
-    }
-}
-
 i.material-icons{
     vertical-align: bottom
+}
+
+#sidenav-overlay {
+    left: 300px;
+}
+
+#editor-wrapper {
+    padding-left: 0;
+}
+
+.editormd-code-toolbar select {
+    display: unset;
 }

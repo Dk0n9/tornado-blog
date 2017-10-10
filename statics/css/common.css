@@ -1,5 +1,5 @@
 body {
-    background-color: #E1E2E1;
+    background-color: #e6e6e6;
 }
 
 nav {
@@ -18,15 +18,15 @@ nav {
   background-color: #29b6f6 !important;
 }
 
-.success {
+.btn-success {
   background-color: #00ea20 !important;
 }
 
-.warning {
+.btn-warning {
   background-color: #ffbc10 !important;
 }
 
-.error {
+.btn-danger {
   background-color: #ff0000 !important;
 }
 
