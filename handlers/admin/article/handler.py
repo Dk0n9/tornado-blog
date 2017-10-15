@@ -7,7 +7,7 @@ import model
 from handlers import base
 
 
-class AdminArticlesHandler(base.BaseHandler):
+class AdminArticlesHandler(base.AdminHandler):
 
     def initialize(self, **kwargs):
         super(AdminArticlesHandler, self).initialize(**kwargs)
@@ -18,14 +18,14 @@ class AdminArticlesHandler(base.BaseHandler):
         self.render('admin/articles.html', articles=articleLists)
 
 
-class AdminWriteArticle(base.BaseHandler):
+class AdminWriteArticle(base.AdminHandler):
 
     def initialize(self, **kwargs):
         super(AdminWriteArticle, self).initialize(**kwargs)
         self._dbOperate = model.Model(self.db)
 
     def get(self, *args, **kwargs):
-        self.render('admin/write.html')
+        self.render('admin/write.html', editMode=0)
 
     def post(self, *args, **kwargs):
         message = {
@@ -53,7 +53,7 @@ class AdminWriteArticle(base.BaseHandler):
         self.write(message)
 
 
-class AdminArticleInfo(base.BaseHandler):
+class AdminArticleInfo(base.AdminHandler):
 
     def initialize(self, **kwargs):
         super(AdminArticleInfo, self).initialize(**kwargs)
@@ -83,7 +83,7 @@ class AdminArticleInfo(base.BaseHandler):
         self.write(message)
 
 
-class AdminArticleUpdate(base.BaseHandler):
+class AdminArticleUpdate(base.AdminHandler):
 
     def initialize(self, **kwargs):
         super(AdminArticleUpdate, self).initialize(**kwargs)
@@ -114,7 +114,7 @@ class AdminArticleUpdate(base.BaseHandler):
         self.write(message)
 
 
-class AdminArticleDelete(base.BaseHandler):
+class AdminArticleDelete(base.AdminHandler):
 
     def initialize(self, **kwargs):
         super(AdminArticleDelete, self).initialize(**kwargs)
