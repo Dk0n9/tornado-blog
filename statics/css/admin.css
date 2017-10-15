@@ -2,6 +2,10 @@ nav {
     margin-bottom: 1.5rem;
 }
 
+#wrapper {
+    padding-top: 1rem;
+}
+
 i.material-icons{
     vertical-align: bottom
 }

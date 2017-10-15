@@ -3,25 +3,58 @@
 <head>
     {% include "../common/header.html" %}
     <link type="text/css" rel="stylesheet" href="{{ static_url('css/admin.css') }}" media="screen,projection"/>
-    <link rel="stylesheet" href="{{ static_url('editor/css/editormd.min.css') }}" />
+    <link rel="stylesheet" href="{{ static_url('editor/css/editormd.min.css') }}"/>
     <title>撰写文章</title>
 </head>
 
 <main>
     {% include "../common/navbar.html" %}
     <div class="row">
-        <div id="wrapper" class="col s12">
-            <div class="input-field col s12">
-                <input placeholder="填写文章标题" id="title" type="text" class="col s4" style="text-align: center">
-                <div class="input-group col s2 right">
-                <a href="#" class="btn btn-primary left">现在发布</a>
-                    <a href="#" class="btn btn-danger left">草稿</a>
+        <div class="container">
+            <div id="wrapper" class="col s12">
+                <div class="col s12">
+                    <div class="input-field col s12 m6">
+                        <i class="material-icons prefix">subtitles</i>
+                        <input id="title" type="text" class="validate" placeholder="填写文章标题"
+                               data-length='50' style="text-align: center;">
                     </div>
+                    <div class="input-field col s6 m6">
+                        <div class="hide-on-med-and-down input-group right">
+                            <a href='#' class='btn btn-danger save-draft'><i class="material-icons">delete</i>存为草稿</a>
+                            {% if editMode %}
+                            <a href='#' class='btn btn-primary update-now right'><i class="material-icons">update</i>现在更新</a>
+                            {% else %}
+                            <a href='#' class='btn btn-primary publish-now right'><i class="material-icons">publish</i>现在发布</a>
+                            {% end %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12">
+                    <div class="input-field col s6 m2">
+                        <i class="material-icons prefix">account_circle</i>
+                        <input id="author" type="text" class="validate" placeholder="填写作者名称"
+                               value="{{ current_user.setting_user_name }}" style="text-align: center;">
+                    </div>
+                    <div class="input-field col s6 m2">
+                        <i class="material-icons prefix">access_time</i>
+                        <input id="publish" type="text" class="timepicker" placeholder="发布日期" style="text-align: center;">
+                    </div>
+                </div>
+                <div id="editor-wrapper" class="col s12">
+                    <textarea style="display:none;"></textarea>
+                </div>
+                <div class="col s12 m4 chips"></div>
             </div>
-            <div id="editor-wrapper" class="col s12">
-                <textarea style="display:none;"></textarea>
+            <div class="input-field col s12 hide-on-large-only">
+                <div class="input-group right">
+                    <a href='#' class='btn btn-danger save-draft'><i class="material-icons">delete</i>存为草稿</a>
+                    {% if editMode %}
+                    <a href='#' class='btn btn-primary update-now right'><i class="material-icons">update</i>现在更新</a>
+                    {% else %}
+                    <a href='#' class='btn btn-primary publish-now right'><i class="material-icons">publish</i>现在发布</a>
+                    {% end %}
+                </div>
             </div>
-            <div class="col s12 m3 chips"></div>
         </div>
     </div>
 
@@ -30,41 +63,6 @@
 <script type="text/javascript" src="{{ static_url('js/materialize.min.js') }}"></script>
 <script type="text/javascript" src="{{ static_url('js/common.js') }}"></script>
 <script type="text/javascript" src="{{ static_url('editor/editormd.min.js') }}"></script>
-<script type="text/javascript">
-    $(function() {
-        var mdEditor = editormd('editor-wrapper', {
-            width: '100%',
-            height: 640,
-            syncScrolling: 'single',
-            toolbarIcons: function() {
-                return [
-                    "undo", "redo", "|",
-                    "bold", "del", "italic", "quote", "ucwords", "uppercase", "lowercase", "|",
-                    "list-ul", "list-ol", "hr", "|",
-                    "link", "reference-link", "image", "code", "preformatted-text", "code-block", "table", "datetime", "pagebreak", "|",
-                    "goto-line", "watch", "preview", "fullscreen", "clear", "search", "|",
-                    "help"
-                ]
-            },
-            path : '/statics/editor/lib/',
-            delay: 1000,  // 当数据量过大是开启延迟显示
-            flowChart: true,  // 开启流程图功能
-            emoji: false
-        });
-
-        $('.chips').material_chip({  // 初始化文章标签模块
-            autocompleteOptions: {
-                data: {
-                    'Fuck': null,
-                    'Microsoft': null,
-                    'Google': null
-                },
-                limit: Infinity,
-                minLength: 1
-            },
-            placeholder: '输入文章标签'
-        });
-    });
-</script>
+<script type="text/javascript" src="{{ static_url('write/write.js') }}"></script>
 
 </html>
