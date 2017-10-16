@@ -14,7 +14,8 @@ def getRoutes(options):
                   ])
 
     # <-- ARTICLE MODULE --> #
-    routes.extend([url(r'^/admin/write.asp$', AdminWriteArticle, dict(options), name='adminWrite')
+    routes.extend([url(r'^/admin/articles.asp$', AdminArticlesHandler, dict(options), name='adminArticles'),
+                   url(r'^/admin/write.asp$', AdminWriteArticle, dict(options), name='adminWrite')
                    ])
 
     return routes

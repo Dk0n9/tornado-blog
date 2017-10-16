@@ -1,3 +1,23 @@
+function getInfo() {
+    var info = {
+        article_title: $('#title').val(),
+        article_author: $('#author').val(),
+        article_content: $('#content').val(),
+        article_is_draft: '0',
+        article_is_hidden: $('#hidden').is(':checked') ? '1' : '0',
+        tag_name: '',
+        article_create_time: $('#publish').val(),
+        _xsrf: $('input[name=_xsrf]').val()
+    };
+    $('.chips .chip').each(function () {
+        var str = $(this).text();
+        str = str.substring(0, str.length - 5);
+        info.tag_name += str + ',';
+    });
+    info.tag_name = info.tag_name.substring(0, info.tag_name.length - 1);
+    return info;
+}
+
 $(function () {
     var mdEditor = editormd('editor-wrapper', {
         width: '100%',
@@ -55,5 +75,35 @@ $(function () {
         ampmclickable: true,
         twelvehour: false,
         vibrate: true
+    });
+
+    $('.publish-now').on('click', function () {  // [现在发布]按钮点击事件
+        var info = getInfo();
+        $.ajax({
+            url: $.URL_CONFIG.write_api_url,
+            type: 'post',
+            data: info,
+            success: function (response) {
+                if (response.status) {
+                    Materialize.toast(response.message, 1700, 'btn-primary', function () {
+                        window.location = response.result;
+                    });
+                } else {
+                    Materialize.toast(response.message, 1500, 'btn-danger');
+                }
+            },
+            error: function (response) {
+
+            }
+        });
+    });
+
+    $('.update-now').on('click', function () {  // [现在更新]按钮点击事件
+        var info = getInfo();
+    });
+
+    $('.save-draft').on('click', function () {  // [存为草稿]按钮点击事件
+        var info = getInfo();
+        info.article_is_draft = '1';
     });
 });

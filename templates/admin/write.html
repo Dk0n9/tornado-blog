@@ -22,7 +22,7 @@
                         <div class="hide-on-med-and-down input-group right">
                             <a href='#' class='btn btn-danger save-draft'><i class="material-icons">delete</i>存为草稿</a>
                             {% if editMode %}
-                            <a href='#' class='btn btn-primary update-now right'><i class="material-icons">update</i>现在更新</a>
+                            <a href='#' class='btn btn-primary update-now right'><i class="material-icons">update</i>更新文章</a>
                             {% else %}
                             <a href='#' class='btn btn-primary publish-now right'><i class="material-icons">publish</i>现在发布</a>
                             {% end %}
@@ -37,19 +37,27 @@
                     </div>
                     <div class="input-field col s6 m2">
                         <i class="material-icons prefix">access_time</i>
-                        <input id="publish" type="text" class="timepicker" placeholder="发布日期" style="text-align: center;">
+                        <input id="publish" type="text" class="timepicker" placeholder="发布日期"
+                               style="text-align: center;">
+                    </div>
+                    <div class="col s6 m2 right">
+                        <p>
+                            <input type="checkbox" id="hidden"/>
+                            <label for="hidden">文章仅本人可见</label>
+                        </p>
                     </div>
                 </div>
                 <div id="editor-wrapper" class="col s12">
-                    <textarea style="display:none;"></textarea>
+                    <textarea id="content" style="display:none;"></textarea>
                 </div>
                 <div class="col s12 m4 chips"></div>
+
             </div>
             <div class="input-field col s12 hide-on-large-only">
                 <div class="input-group right">
                     <a href='#' class='btn btn-danger save-draft'><i class="material-icons">delete</i>存为草稿</a>
                     {% if editMode %}
-                    <a href='#' class='btn btn-primary update-now right'><i class="material-icons">update</i>现在更新</a>
+                    <a href='#' class='btn btn-primary update-now right'><i class="material-icons">update</i>更新文章</a>
                     {% else %}
                     <a href='#' class='btn btn-primary publish-now right'><i class="material-icons">publish</i>现在发布</a>
                     {% end %}
@@ -57,12 +65,13 @@
             </div>
         </div>
     </div>
-
+    {% raw xsrf_form_html() %}
 </main>
 <script type="text/javascript" src="//cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
 <script type="text/javascript" src="{{ static_url('js/materialize.min.js') }}"></script>
 <script type="text/javascript" src="{{ static_url('js/common.js') }}"></script>
 <script type="text/javascript" src="{{ static_url('editor/editormd.min.js') }}"></script>
 <script type="text/javascript" src="{{ static_url('write/write.js') }}"></script>
+<script>$.URL_CONFIG.write_api_url = "{{ reverse_url('adminWrite') }}"</script>
 
 </html>

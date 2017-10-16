@@ -45,11 +45,12 @@ class AdminWriteArticle(base.AdminHandler):
 
         isSuccess = self._dbOperate.addArticleByDict(info)
         if not isSuccess:
-            message['message'] = u'新增失败'
+            message['message'] = u'发布失败'
             return self.write(message)
 
         message['status'] = True
-        message['message'] = u'新增成功'
+        message['message'] = u'发布成功，即将跳转至文章管理页面...'
+        message['result'] = self.reverse_url('adminArticles')
         self.write(message)
 
 
