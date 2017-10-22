@@ -1,5 +1,6 @@
 function getInfo() {
     var info = {
+        article_id: $('#author').attr('data-id') ? $('#author').attr('data-id') : '0',
         article_title: $('#title').val(),
         article_author: $('#author').val(),
         article_content: $('#content').val(),
@@ -80,7 +81,7 @@ $(function () {
     $('.publish-now').on('click', function () {  // [现在发布]按钮点击事件
         var info = getInfo();
         $.ajax({
-            url: $.URL_CONFIG.write_api_url,
+            url: $.URL_CONFIG.article.write_api_url,
             type: 'post',
             data: info,
             success: function (response) {
@@ -100,10 +101,46 @@ $(function () {
 
     $('.update-now').on('click', function () {  // [现在更新]按钮点击事件
         var info = getInfo();
+        $.ajax({
+            url: $.URL_CONFIG.article.update_api_url,
+            type: 'post',
+            data: info,
+            success: function (response) {
+                if (response.status) {
+                    Materialize.toast(response.message, 1700, 'btn-primary');
+                } else {
+                    Materialize.toast(response.message, 1500, 'btn-danger');
+                }
+            },
+            error: function (response) {
+
+            }
+        });
     });
 
     $('.save-draft').on('click', function () {  // [存为草稿]按钮点击事件
         var info = getInfo();
         info.article_is_draft = '1';
+        var tempURL = '';
+        if (info.article_id === '0') {
+            tempURL = $.URL_CONFIG.article.write_api_url;
+        } else {
+            tempURL = $.URL_CONFIG.article.update_api_url;
+        }
+        $.ajax({
+            url: tempURL,
+            type: 'post',
+            data: info,
+            success: function (response) {
+                if (response.status) {
+                    Materialize.toast(response.message, 1700, 'btn-primary');
+                } else {
+                    Materialize.toast(response.message, 1500, 'btn-danger');
+                }
+            },
+            error: function (response) {
+
+            }
+        });
     });
 });

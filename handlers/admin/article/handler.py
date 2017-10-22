@@ -15,7 +15,7 @@ class AdminArticlesHandler(base.AdminHandler):
 
     def get(self, *args, **kwargs):
         articleLists = self._dbOperate.getArticleLists()
-        self.render('admin/articles.html', articles=articleLists)
+        self.render('admin/articles.html', articleLists=articleLists)
 
 
 class AdminWriteArticle(base.AdminHandler):
@@ -89,6 +89,15 @@ class AdminArticleUpdate(base.AdminHandler):
     def initialize(self, **kwargs):
         super(AdminArticleUpdate, self).initialize(**kwargs)
         self._dbOperate = model.Model(self.db)
+
+    def get(self, *args, **kwargs):
+        articleID = self.request.path.split('/')[-1]
+        articleInfo = self._dbOperate.getArticleInfoByID(articleID)
+        if not articleInfo:
+            return self.write_error(404)
+        articleInfo = articleInfo.__dict__
+        del articleInfo['_sa_instance_state']
+        self.render('admin/write.html', articleInfo=articleInfo, editMode=1)
 
     def post(self, *args, **kwargs):
         message = {

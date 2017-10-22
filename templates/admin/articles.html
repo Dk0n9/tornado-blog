@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include "../common/header.html" %}
+    <link type="text/css" rel="stylesheet" href="{{ static_url('css/admin.css') }}" media="screen,projection"/>
+    <title>文章列表 - {{ siteTitle }}</title>
+</head>
+
+<main>
+    {% include "../common/navbar.html" %}
+    <div class="row">
+        <div class="container">
+            <div id="article-list" class="col s4 card-panel z-depth-2">
+                <ul class="collection">
+                    {% for articleInfo in articleLists %}
+                        <a href="#" class="collection-item avatar selected">
+                            <i class="material-icons red circle">exit_to_app</i>
+                            <span class="black-text">{{ articleInfo.article_title }}</span>
+                            <p class="grey-text text-darken-1 truncate">{{ articleInfo.article_content }}</p>
+                        </a>
+                    {% end %}
+                </ul>
+            </div>
+            <div id="article-details" class="col s8 card-panel" style="display: none">
+                <p class="article-title">这是简单的文章标题</p>
+                <hr class="grey-text text-lighten-2">
+                <pre>asdasdas
+                adasdas
+                das
+                das
+                d
+                as
+                d
+                as
+                d
+                asd
+                as
+                </pre>
+            </div>
+        </div>
+    </div>
+
+</main>
+<script type="text/javascript" src="//cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="{{ static_url('js/materialize.min.js') }}"></script>
+<script type="text/javascript" src="{{ static_url('index/index.js') }}"></script>
+
+</html>

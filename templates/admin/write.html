@@ -15,8 +15,13 @@
                 <div class="col s12">
                     <div class="input-field col s12 m6">
                         <i class="material-icons prefix">subtitles</i>
+                        {% if editMode %}
+                        <input id="title" type="text" class="validate" placeholder="填写文章标题"
+                               data-length='50' style="text-align: center;" value="{{ articleInfo.article_title }}">
+                        {% else %}
                         <input id="title" type="text" class="validate" placeholder="填写文章标题"
                                data-length='50' style="text-align: center;">
+                        {% end %}
                     </div>
                     <div class="input-field col s6 m6">
                         <div class="hide-on-med-and-down input-group right">
@@ -32,23 +37,41 @@
                 <div class="col s12">
                     <div class="input-field col s6 m2">
                         <i class="material-icons prefix">account_circle</i>
+                        {% if editMode %}
+                        <input id="author" type="text" class="validate" placeholder="填写作者名称"
+                               value="{{ articleInfo.article_author }}" style="text-align: center;" data-id="{{ articleInfo.article_id }}">
+                        {% else %}
                         <input id="author" type="text" class="validate" placeholder="填写作者名称"
                                value="{{ current_user.setting_user_name }}" style="text-align: center;">
+                        {% end %}
                     </div>
                     <div class="input-field col s6 m2">
                         <i class="material-icons prefix">access_time</i>
+                        {% if editMode %}
+                        <input id="publish" type="text" class="timepicker" placeholder="发布日期"
+                               style="text-align: center;" value="{{ sftime(articleInfo.article_create_timestamp, 'hh:nn') }}">
+                        {% else %}
                         <input id="publish" type="text" class="timepicker" placeholder="发布日期"
                                style="text-align: center;">
+                        {% end %}
                     </div>
                     <div class="col s6 m2 right">
                         <p>
+                            {% if editMode and articleInfo.article_is_hidden %}
+                            <input type="checkbox" id="hidden" checked/>
+                            {% else %}
                             <input type="checkbox" id="hidden"/>
+                            {% end %}
                             <label for="hidden">文章仅本人可见</label>
                         </p>
                     </div>
                 </div>
                 <div id="editor-wrapper" class="col s12">
-                    <textarea id="content" style="display:none;"></textarea>
+                    <textarea id="content" style="display:none;">
+                        {% if editMode %}
+                            {{ articleInfo.article_content }}
+                        {% end %}
+                    </textarea>
                 </div>
                 <div class="col s12 m4 chips"></div>
 
@@ -72,6 +95,9 @@
 <script type="text/javascript" src="{{ static_url('js/common.js') }}"></script>
 <script type="text/javascript" src="{{ static_url('editor/editormd.min.js') }}"></script>
 <script type="text/javascript" src="{{ static_url('write/write.js') }}"></script>
-<script>$.URL_CONFIG.write_api_url = "{{ reverse_url('adminWrite') }}"</script>
+<script>
+    $.URL_CONFIG.article.write_api_url = "{{ reverse_url('adminWrite') }}";
+    $.URL_CONFIG.article.update_api_url = "{{ reverse_url('articleUpdate') }}";
+</script>
 
 </html>

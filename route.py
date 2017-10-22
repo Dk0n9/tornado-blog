@@ -9,13 +9,14 @@ def getRoutes(options):
     routes = []
 
     # <-- ADMIN MODULE --> #
-    routes.extend([url(r'^/admin/login.asp$', AdminLoginHandler, dict(options), name='adminLogin'),
-                   url(r'^/admin/index.asp$', AdminIndexHandler, dict(options), name='adminIndex')
+    routes.extend([url(r'^/admin/login$', AdminLoginHandler, dict(options), name='adminLogin'),
+                   url(r'^/admin/index$', AdminIndexHandler, dict(options), name='adminIndex')
                   ])
 
-    # <-- ARTICLE MODULE --> #
-    routes.extend([url(r'^/admin/articles.asp$', AdminArticlesHandler, dict(options), name='adminArticles'),
-                   url(r'^/admin/write.asp$', AdminWriteArticle, dict(options), name='adminWrite')
+    # <-- ADMIN ARTICLE MODULE --> #
+    routes.extend([url(r'^/admin/articles$', AdminArticlesHandler, dict(options), name='adminArticles'),
+                   url(r'^/admin/write$', AdminWriteArticle, dict(options), name='adminWrite'),
+                   url(r'^/admin/article/update$', AdminArticleUpdate, dict(options), name='articleUpdate'),
                    ])
 
     return routes
