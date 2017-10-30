@@ -14,9 +14,9 @@ DESC = desc
 
 
 def init(settings):
-    engine = create_engine('{0}://{1}:{2}@{3}:{4}/{5}'.format(settings['driver'], settings['user'],
+    engine = create_engine('{0}://{1}:{2}@{3}:{4}/{5}?charset={6}'.format(settings['driver'], settings['user'],
                                                               settings['pass'], settings['host'],
-                                                              settings['port'], settings['db']),
+                                                              settings['port'], settings['db'], settings['charset']),
                            encoding=settings['charset'], echo=settings.get('debug', False))
     engine.recycle = 3600
     DBSession = sessionmaker(bind=engine)

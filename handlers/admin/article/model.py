@@ -2,6 +2,7 @@
 from models.tags import Model as tagModel
 from models.articles import Model as articleModel
 from models.article_tags import Model as articleTagsModel
+from models import db
 
 
 class Model(object):
@@ -10,7 +11,8 @@ class Model(object):
         self._session = dbSession
 
     def getArticleLists(self):
-        raw = self._session.query(articleModel).all()
+        raw = self._session.query(articleModel.article_id, articleModel.article_title, articleModel.article_summary,
+                                  articleModel.article_is_draft).order_by(db.DESC(articleModel.article_create_timestamp)).all()
         return raw
 
     def getArticleInfoByID(self, articleID):
@@ -20,7 +22,7 @@ class Model(object):
         except Exception, e:
             return False
 
-    def updateArticleInfo(self, articleID, title, author, content, isDraft, isHidden):
+    def updateArticleInfo(self, articleID, title, author, summary, content, isDraft, isHidden):
         """更新文章信息"""
         articleInfo = self.getArticleInfoByID(articleID)
         if not articleInfo:

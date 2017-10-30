@@ -15,8 +15,9 @@ def getRoutes(options):
 
     # <-- ADMIN ARTICLE MODULE --> #
     routes.extend([url(r'^/admin/articles$', AdminArticlesHandler, dict(options), name='adminArticles'),
+                   url(r'^/admin/articles/info$', AdminArticleInfo, dict(options), name='articleInfo'),
                    url(r'^/admin/write$', AdminWriteArticle, dict(options), name='adminWrite'),
-                   url(r'^/admin/article/update$', AdminArticleUpdate, dict(options), name='articleUpdate'),
+                   url(r'^/admin/articles/edit$', AdminArticleEdit, dict(options), name='articleEdit'),
                    ])
 
     return routes

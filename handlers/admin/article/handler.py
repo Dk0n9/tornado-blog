@@ -34,8 +34,9 @@ class AdminWriteArticle(base.AdminHandler):
             'result': ''
         }
         info = {
-            'article_title': self.get_argument('article_title', ''),
+            'article_title': self.get_argument('article_title', '').encode('utf8'),
             'article_author': self.get_argument('article_author', ''),
+            'article_summary': self.get_argument('article_summary', ''),
             'article_content': self.get_argument('article_content', ''),
             'article_is_draft': self.get_argument('article_is_draft', ''),
             'article_is_hidden': self.get_argument('article_is_hidden', ''),
@@ -84,19 +85,17 @@ class AdminArticleInfo(base.AdminHandler):
         self.write(message)
 
 
-class AdminArticleUpdate(base.AdminHandler):
+class AdminArticleEdit(base.AdminHandler):
 
     def initialize(self, **kwargs):
-        super(AdminArticleUpdate, self).initialize(**kwargs)
+        super(AdminArticleEdit, self).initialize(**kwargs)
         self._dbOperate = model.Model(self.db)
 
     def get(self, *args, **kwargs):
-        articleID = self.request.path.split('/')[-1]
+        articleID = self.get_query_argument('id', '')
         articleInfo = self._dbOperate.getArticleInfoByID(articleID)
         if not articleInfo:
             return self.write_error(404)
-        articleInfo = articleInfo.__dict__
-        del articleInfo['_sa_instance_state']
         self.render('admin/write.html', articleInfo=articleInfo, editMode=1)
 
     def post(self, *args, **kwargs):
@@ -109,11 +108,12 @@ class AdminArticleUpdate(base.AdminHandler):
         articleID = self.get_argument('article_id', '')
         articleTitle = self.get_argument('article_title', '')
         articleAuthor = self.get_argument('article_author', '')
+        articleSummary = self.get_argument('article_summary', '')
         articleContent = self.get_argument('article_content', '')
         articleIsDraft = self.get_argument('article_is_draft', '')
         articleIsHidden = self.get_argument('article_is_hidden', '')
 
-        isSuccess = self._dbOperate.updateArticleInfo(articleID, articleTitle, articleAuthor,
+        isSuccess = self._dbOperate.updateArticleInfo(articleID, articleTitle, articleAuthor, articleSummary,
                                                       articleContent, articleIsDraft, articleIsHidden)
         if not isSuccess:
             message['message'] = u'更新失败'

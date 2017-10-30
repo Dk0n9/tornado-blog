@@ -1,9 +1,7 @@
 # coding: utf8
-import re
 import json
 import time
 import random
-import urlparse
 import binascii
 from hashlib import pbkdf2_hmac
 from string import ascii_letters

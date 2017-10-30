@@ -3,6 +3,7 @@ function getInfo() {
         article_id: $('#author').attr('data-id') ? $('#author').attr('data-id') : '0',
         article_title: $('#title').val(),
         article_author: $('#author').val(),
+        article_summary: $('#summary').val(),
         article_content: $('#content').val(),
         article_is_draft: '0',
         article_is_hidden: $('#hidden').is(':checked') ? '1' : '0',
@@ -94,7 +95,7 @@ $(function () {
                 }
             },
             error: function (response) {
-
+                Materialize.toast('未知错误，请与管理员联系', 1500, 'btn-danger');
             }
         });
     });
@@ -107,13 +108,15 @@ $(function () {
             data: info,
             success: function (response) {
                 if (response.status) {
-                    Materialize.toast(response.message, 1700, 'btn-primary');
+                    Materialize.toast(response.message, 1700, 'btn-primary', function () {
+                        window.location = response.result
+                    });
                 } else {
                     Materialize.toast(response.message, 1500, 'btn-danger');
                 }
             },
             error: function (response) {
-
+                Materialize.toast('未知错误，请与管理员联系', 1500, 'btn-danger');
             }
         });
     });
@@ -133,13 +136,15 @@ $(function () {
             data: info,
             success: function (response) {
                 if (response.status) {
-                    Materialize.toast(response.message, 1700, 'btn-primary');
+                    Materialize.toast(response.message, 1700, 'btn-primary', function () {
+                        window.location = response.result
+                    });
                 } else {
                     Materialize.toast(response.message, 1500, 'btn-danger');
                 }
             },
             error: function (response) {
-
+                Materialize.toast('未知错误，请与管理员联系', 1500, 'btn-danger');
             }
         });
     });
