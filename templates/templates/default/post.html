@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include "../../common/header.html" %}
+    <link type="text/css" rel="stylesheet" href="{{ static_url('editor/css/editormd.min.css') }}"/>
+    <title>{{ postInfo.post_title }} - {{ siteTitle }}</title>
+</head>
+
+<main>
+    <div class="parallax-container">
+        <div class="parallax"><img src="{{ static_url('images/banner.jpg') }}" style=""></div>
+    </div>
+    <div class="row container">
+        <div class="col s12 m10 offset-m1">
+            <div class="col s12 post">
+                <a href="#" class="title"><h2>{{ postInfo.post_title }}</h2></a>
+                <div class="col s6 offset-s3 banner" style="text-align: center">
+                    <span>{{ sftime(postInfo.post_create_timestamp, '%Y年 %m月 %d日') }}</span>
+                </div>
+                <div class="col s12 m10 offset-m1 post-content">
+                    <div id="editor-wrapper"><textarea hidden>{{ postInfo.post_content }}</textarea></div>
+                </div>
+                <div class="col s12 m10 offset-m1 tags">
+                    <p>文章标签：
+                        {% for tag in tags %}
+                            <div class="chip">{{ tag }}</div>
+                        {% end %}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="fixed-action-btn" style="top: 20px; right: 40px;">
+        <a id="btn-collapse" href="javascript:" data-activates="tocbar">
+            <i class="material-icons small">menu</i>
+        </a>
+    </div>
+    <div id="tocbar" class="tocbar hide-on-med-and-down" hidden>
+        <h4>目录</h4>
+        <div class="markdown-body editormd-preview-container" id="toc-container">#custom-toc-container</div>
+    </div>
+</main>
+
+<footer>
+    <script type="text/javascript" src="//cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ static_url('js/materialize.min.js') }}"></script>
+    <script type="text/javascript" src="{{ static_url('js/common.js') }}"></script>
+    <!-- Editor.md 引入文件 -->
+    <script type="text/javascript" src="{{ static_url('editor/lib/marked.min.js') }}"></script>
+    <script type="text/javascript" src="{{ static_url('editor/lib/prettify.min.js') }}"></script>
+    <script type="text/javascript" src="{{ static_url('editor/lib/raphael.min.js') }}"></script>
+    <script type="text/javascript" src="{{ static_url('editor/lib/underscore.min.js') }}"></script>
+    <script type="text/javascript" src="{{ static_url('editor/lib/sequence-diagram.min.js') }}"></script>
+    <script type="text/javascript" src="{{ static_url('editor/lib/flowchart.min.js') }}"></script>
+    <script type="text/javascript" src="{{ static_url('editor/lib/jquery.flowchart.min.js') }}"></script>
+    <script type="text/javascript" src="{{ static_url('editor/editormd.min.js') }}"></script>
+    <script>
+        $(function () {
+            $('#btn-collapse').on('click', function () {
+                var selector = $(this).attr('data-activates');
+                $('#' + selector).fadeToggle();
+            });
+            $.EDITOR_CONFIG.autoHeight = true;
+            $.EDITOR_CONFIG.tocm = true;
+            $.EDITOR_CONFIG.tocContainer = '#toc-container';
+            window.postEditor = editormd.markdownToHTML('editor-wrapper', $.EDITOR_CONFIG);
+        });
+    </script>
+</footer>
+</html>

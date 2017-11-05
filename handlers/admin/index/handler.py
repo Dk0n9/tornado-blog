@@ -47,5 +47,5 @@ class AdminIndexHandler(base.AdminHandler):
         self._dbOperate = model.Model(self.db)
 
     def get(self, *args, **kwargs):
-        articleCount = self._dbOperate.getArticleCount()
-        self.render('admin/index.html', articleCount=articleCount)
+        postCount = self._dbOperate.getPostCount()
+        self.render('admin/index.html', postCount=postCount)

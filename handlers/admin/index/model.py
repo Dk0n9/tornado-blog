@@ -1,6 +1,6 @@
 # coding: utf8
 from models.settings import Model as settingModel
-from models.articles import Model as articleModel
+from models.posts import Model as postModel
 
 
 class Model(object):
@@ -18,6 +18,6 @@ class Model(object):
         except Exception, e:
             return False
 
-    def getArticleCount(self):
-        raw = self._session.query(articleModel.article_id).count()
+    def getPostCount(self):
+        raw = self._session.query(postModel.post_id).count()
         return raw

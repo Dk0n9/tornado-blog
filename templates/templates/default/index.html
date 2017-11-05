@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include "../../common/header.html" %}
+    <title>{{ siteTitle }}</title>
+</head>
+
+<main>
+    <div class="parallax-container">
+        <div class="parallax"><img src="{{ static_url('images/banner.jpg') }}" style="display: block; transform: translate3d(-50%, 393px, 0px);"></div>
+    </div>
+    <div class="row container">
+        <div class="col s12 m8 offset-m2">
+            <div class="col s12 post">
+                {% for postInfo in postList %}
+                <section class="col s12">
+                    <a href="/post/{{ postInfo['id'] }}" class="title"><h2>{{ postInfo['title'] }}</h2></a>
+                    <div class="col s6 offset-s3 banner" style="text-align: center">
+                        <span>{{ sftime(postInfo['timestamp'], '%Y年 %m月 %d日') }}</span>
+                    </div>
+                    <div class="col s10 offset-s1 summary">
+                        <p class="grey-text text-darken-3 lighten-3">{{ postInfo['summary'] }}</p>
+                    </div>
+                    <div class="col s10 offset-s1 tags">
+                        <p>文章标签：
+                            {% for tag in postInfo['tags'] %}
+                                <div class="chip">{{ tag }}</div>
+                            {% end %}
+                        </p>
+                    </div>
+                </section>
+                {% end %}
+            </div>
+        </div>
+    </div>
+</main>
+<script type="text/javascript" src="//cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="{{ static_url('js/materialize.min.js') }}"></script>
+<script type="text/javascript" src="{{ static_url('js/common.js') }}"></script>
+
+</html>

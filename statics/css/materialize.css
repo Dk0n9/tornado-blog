@@ -2169,7 +2169,7 @@ body {
  * and Firefox.
  * Correct `block` display not defined for `main` in IE 11.
  */
-article,
+post,
 aside,
 details,
 figcaption,
@@ -2260,7 +2260,7 @@ dfn {
 }
 
 /**
- * Address variable `h1` font-size and margin within `section` and `article`
+ * Address variable `h1` font-size and margin within `section` and `post`
  * contexts in Firefox 4+, Safari, and Chrome.
  */
 h1 {

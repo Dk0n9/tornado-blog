@@ -21,6 +21,14 @@ class BaseHandler(RequestHandler):
     def getUserIP(self):
         return self.request.remote_ip
 
+    @property
+    def getSetting(self):
+        try:
+            raw = self.db.query(SettingModel).first()
+            return raw
+        except Exception, e:
+            return False
+
     def get_login_url(self):
         return self.reverse_url('login')
 

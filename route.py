@@ -1,8 +1,9 @@
 # coding: utf-8
 from tornado.web import url
 
+from handlers.index.handler import *
 from handlers.admin.index.handler import *
-from handlers.admin.article.handler import *
+from handlers.admin.post.handler import *
 
 
 def getRoutes(options):
@@ -14,10 +15,16 @@ def getRoutes(options):
                   ])
 
     # <-- ADMIN ARTICLE MODULE --> #
-    routes.extend([url(r'^/admin/articles$', AdminArticlesHandler, dict(options), name='adminArticles'),
-                   url(r'^/admin/articles/info$', AdminArticleInfo, dict(options), name='articleInfo'),
-                   url(r'^/admin/write$', AdminWriteArticle, dict(options), name='adminWrite'),
-                   url(r'^/admin/articles/edit$', AdminArticleEdit, dict(options), name='articleEdit'),
+    routes.extend([url(r'^/admin/posts$', AdminPostsHandler, dict(options), name='adminPosts'),
+                   url(r'^/admin/posts/info$', AdminPostInfo, dict(options), name='postInfo'),
+                   url(r'^/admin/write$', AdminWritePost, dict(options), name='adminWrite'),
+                   url(r'^/admin/posts/edit$', AdminPostEdit, dict(options), name='postEdit'),
+                   url(r'^/admin/posts/tags$', AdminPostTags, dict(options), name='postTags'),
+                   ])
+
+    # <-- INDEX MODULE --> #
+    routes.extend([url(r'^/$|^/index$', IndexHandler, dict(options), name='blogIndex'),
+                   url(r'^/post/\d{1,9}$', PostDetailHandler, dict(options), name='blogDetail')
                    ])
 
     return routes

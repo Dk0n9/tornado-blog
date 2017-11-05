@@ -3,7 +3,7 @@
 <head>
     {% include "../common/header.html" %}
     <link type="text/css" rel="stylesheet" href="{{ static_url('css/admin.css') }}" media="screen,projection"/>
-    <link rel="stylesheet" href="{{ static_url('editor/css/editormd.min.css') }}"/>
+    <link type="text/css" rel="stylesheet" href="{{ static_url('editor/css/editormd.min.css') }}"/>
     <title>撰写文章</title>
 </head>
 
@@ -17,7 +17,7 @@
                         <i class="material-icons prefix">subtitles</i>
                         {% if editMode %}
                         <input id="title" type="text" class="validate" placeholder="填写文章标题"
-                               data-length='50' style="text-align: center;" value="{{ articleInfo.article_title }}">
+                               data-length='50' style="text-align: center;" value="{{ postInfo.post_title }}">
                         {% else %}
                         <input id="title" type="text" class="validate" placeholder="填写文章标题"
                                data-length='50' style="text-align: center;">
@@ -25,11 +25,16 @@
                     </div>
                     <div class="input-field col s6 m6">
                         <div class="hide-on-med-and-down input-group right">
-                            <a href='#' class='btn btn-danger save-draft'><i class="material-icons">delete</i>存为草稿</a>
                             {% if editMode %}
-                            <a href='#' class='btn btn-primary update-now right'><i class="material-icons">update</i>更新文章</a>
+                                {% if postInfo.post_is_draft %}
+                                    <a href='#' class='btn btn-primary update-now right'><i class="material-icons">publish</i>发布文章</a>
+                                {% else %}
+                                    <a href='#' class='btn btn-danger save-draft'><i class="material-icons">delete</i>存为草稿</a>
+                                    <a href='#' class='btn btn-primary update-now right'><i class="material-icons">update</i>更新文章</a>
+                                {% end %}
                             {% else %}
-                            <a href='#' class='btn btn-primary publish-now right'><i class="material-icons">publish</i>现在发布</a>
+                                <a href='#' class='btn btn-danger save-draft'><i class="material-icons">delete</i>存为草稿</a>
+                                <a href='#' class='btn btn-primary publish-now right'><i class="material-icons">publish</i>发布文章</a>
                             {% end %}
                         </div>
                     </div>
@@ -39,7 +44,7 @@
                         <i class="material-icons prefix">account_circle</i>
                         {% if editMode %}
                         <input id="author" type="text" class="validate" placeholder="填写作者名称"
-                               value="{{ articleInfo.article_author }}" style="text-align: center;" data-id="{{ articleInfo.article_id }}">
+                               value="{{ postInfo.post_author }}" style="text-align: center;" data-id="{{ postInfo.post_id }}">
                         {% else %}
                         <input id="author" type="text" class="validate" placeholder="填写作者名称"
                                value="{{ current_user.setting_user_name }}" style="text-align: center;">
@@ -49,7 +54,7 @@
                         <i class="material-icons prefix">access_time</i>
                         {% if editMode %}
                         <input id="publish" type="text" class="timepicker" placeholder="发布日期"
-                               style="text-align: center;" value="{{ sftime(articleInfo.article_create_timestamp, '%H:%M') }}">
+                               style="text-align: center;" value="{{ sftime(postInfo.post_create_timestamp, '%H:%M') }}">
                         {% else %}
                         <input id="publish" type="text" class="timepicker" placeholder="发布日期"
                                style="text-align: center;">
@@ -57,7 +62,7 @@
                     </div>
                     <div class="col s6 m2 right">
                         <p>
-                            {% if editMode and articleInfo.article_is_hidden %}
+                            {% if editMode and postInfo.post_is_hidden %}
                             <input type="checkbox" id="hidden" checked/>
                             {% else %}
                             <input type="checkbox" id="hidden"/>
@@ -69,11 +74,17 @@
                 <div id="editor-wrapper" class="col s12">
                     <textarea id="content" style="display:none;">
                         {% if editMode %}
-                            {{ articleInfo.article_content }}
+                            {{ postInfo.post_content }}
                         {% end %}
                     </textarea>
                 </div>
-                <div class="col s12 m4 chips"></div>
+                <div class="col s12 m4 chips">
+                    {% if editMode %}
+                        {% for tag in tags %}
+                            <div class="chip">{{ tag }}</div>
+                        {% end %}
+                    {% end %}
+                </div>
 
             </div>
             <div class="input-field col s12 hide-on-large-only">
@@ -94,11 +105,12 @@
 <script type="text/javascript" src="{{ static_url('js/materialize.min.js') }}"></script>
 <script type="text/javascript" src="{{ static_url('js/common.js') }}"></script>
 <script type="text/javascript" src="{{ static_url('editor/editormd.min.js') }}"></script>
-<script type="text/javascript" src="{{ static_url('article/write.js') }}"></script>
+<script type="text/javascript" src="{{ static_url('post/write.js') }}"></script>
 <script>
     $(function () {
-        $.URL_CONFIG.article.write_api_url = "{{ reverse_url('adminWrite') }}";
-        $.URL_CONFIG.article.update_api_url = "{{ reverse_url('articleEdit') }}";
+        $.URL_CONFIG.post.write_api_url = "{{ reverse_url('adminWrite') }}";
+        $.URL_CONFIG.post.update_api_url = "{{ reverse_url('postEdit') }}";
+        $.URL_CONFIG.post.tags_api_url = "{{ reverse_url('postTags') }}";
     });
 </script>
 
