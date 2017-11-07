@@ -40,9 +40,11 @@ class AdminWritePost(base.AdminHandler):
             'post_content': self.get_argument('post_content', ''),
             'post_is_draft': self.get_argument('post_is_draft', ''),
             'post_is_hidden': self.get_argument('post_is_hidden', ''),
-            'tag_name': self.get_argument('tag_name', '').split(','),
+            'tag_name': self.get_argument('tag_name', ''),
             'post_create_timestamp': self.functions.getNowTime()
         }
+        if info['tag_name']:
+            info['tag_name'] = info['tag_name'].split(',')  # 避免出现长度为1的无用list
 
         isSuccess = self._dbOperate.addPostByDict(info)
         if not isSuccess:
@@ -168,15 +170,23 @@ class AdminPostTags(base.AdminHandler):
 
         postID = self.get_argument('postID', '')
         if not postID:
-            tags = self._dbOperate.getAllTags()
-            message['result'] = tags
+            tags = self._dbOperate.getAllTags()  # tags的格式: [tag, ...]，tag的类型为model
+            # 这里转换成前端chip组件autocompleteOptions参数需要的数据格式: { tag_name: null, ...}
+            tempRes = {}
+            for tag in tags:
+                tempRes[tag.tag_name] = None
+            message['result'] = tempRes
             self.write(message)
-            return self.finish()
+            return None
         if not postID.isdigit():
             message['status'] = False
             message['message'] = u'文章ID有误'
             self.write(message)
-            return self.finish()
-        data = self._dbOperate.getTagsByPostID(postID)
-        message['result'] = data
+            return None
+        data = self._dbOperate.getTagsByPostID(postID)  # data的格式: [tag_name, ...]
+        # 这里转换成前端chip组件data参数需要的数据格式: [ { tag: tag_name }, ...]
+        tempRes = []
+        for tag in data:
+            tempRes.append({'tag': tag})
+        message['result'] = tempRes
         self.write(message)

@@ -105,7 +105,6 @@
 <script type="text/javascript" src="{{ static_url('js/materialize.min.js') }}"></script>
 <script type="text/javascript" src="{{ static_url('js/common.js') }}"></script>
 <script type="text/javascript" src="{{ static_url('editor/editormd.min.js') }}"></script>
-<script type="text/javascript" src="{{ static_url('post/write.js') }}"></script>
 <script>
     $(function () {
         $.URL_CONFIG.post.write_api_url = "{{ reverse_url('adminWrite') }}";
@@ -113,5 +112,6 @@
         $.URL_CONFIG.post.tags_api_url = "{{ reverse_url('postTags') }}";
     });
 </script>
+<script type="text/javascript" src="{{ static_url('post/write.js') }}"></script>
 
 </html>

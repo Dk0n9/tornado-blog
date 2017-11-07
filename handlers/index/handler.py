@@ -36,9 +36,9 @@ class PostDetailHandler(base.BaseHandler):
         info = self._dbOperate.getPostInfoByID(postID)
         if not info:
             self.write_error(404)
-            return self.finish()
+            return None
         if info['post'].post_is_hidden:
             if not self.current_user:  # 无权限查看隐藏文章将返回404页面
                 self.write_error(404)
-                return self.finish()
+                return None
         self.render('templates/default/post.html', postInfo=info['post'], tags=info['tags'])

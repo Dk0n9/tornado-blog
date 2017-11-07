@@ -47,6 +47,10 @@ class Model(object):
         else:
             postInfo.post_is_hidden = 0
 
+        # 同步更新文章关联的标签
+        if tags:
+            self.setPostTagsByPostID(postID, tags)
+
         try:
             self._session.commit()
             return True
@@ -105,6 +109,9 @@ class Model(object):
         """根据输入的标签列表循环添加标签到标签表中"""
         result = []
         for tag in tagsList:
+            tag = tag.strip()
+            if not tag:
+                continue
             record = tagModel(tag_name=tag)
             try:
                 self._session.add(record)
@@ -115,14 +122,47 @@ class Model(object):
         self._session.commit()
         return result
 
+    def setPostTagsByPostID(self, postID, newTags):
+        """编辑文章时更新文章标签"""
+        allTags = self.getAllTags()
+        allTagsList = {}
+        for tagModel in allTags:
+            allTagsList[tagModel.tag_name] = tagModel.tag_id
+        # 将新的标签集与所有标签集做差集，得出需要插入到tbl_tags表的标签
+        insertTagsList = list(set(newTags).difference(set(allTagsList.keys())))
+        if insertTagsList:
+            insertedTagsResult = self.addTagByList(insertTagsList)  # 已新增标签的标签ID列表
+        else:
+            insertedTagsResult = []
+        # 删除该文章的所有标签关联记录
+        self._session.query(postTagsModel).filter(postTagsModel.tbl_posts_post_id==postID).delete()
+        # 将newTags中的已存在标签与allTagsList做交集，得出已存在标签的tag_id
+        mixedNameList = list(set(newTags).intersection(set(allTagsList.keys())))
+        mixedIDlist = [allTagsList.pop(mixedName) for mixedName in mixedNameList]
+        # 与已新增标签的标签ID列表做合并操作
+        mixedIDlist.extend(insertedTagsResult)
+        # 遍历 mixedIDlist添加文章与标签关联关系
+        for tagID in mixedIDlist:
+            tempModel = postTagsModel(tbl_posts_post_id=postID, tbl_tags_tag_id=tagID)
+            self._session.add(tempModel)
+        try:
+            self._session.commit()
+            return True
+        except Exception, e:
+            self._session.rollback()
+            return False
+
     def getTagsByPostID(self, postID):
+        """根据文章ID获取该文章关联的所有标签"""
         result = []
-        raw = self._session.query(tagModel).join(postTagsModel, tagModel.tag_id==postTagsModel.tbl_tags_tag_id).\
+        raw = self._session.query(tagModel.tag_name).join(postTagsModel, tagModel.tag_id==postTagsModel.tbl_tags_tag_id).\
             filter(postTagsModel.tbl_posts_post_id == postID).all()
         for tag in raw:
             result.append(tag.tag_name)
         return result
 
     def getAllTags(self):
-        raw = self._session.query(tagModel).all()
-        return raw
+        result = []
+        for tag in self._session.query(tagModel).all():
+            result.append(tag)
+        return result

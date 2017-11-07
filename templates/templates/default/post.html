@@ -13,9 +13,9 @@
     <div class="row container">
         <div class="col s12 m10 offset-m1">
             <div class="col s12 post">
-                <a href="#" class="title"><h2>{{ postInfo.post_title }}</h2></a>
+                <div class="title"><h2>{{ postInfo.post_title }}</h2></div>
                 <div class="col s6 offset-s3 banner" style="text-align: center">
-                    <span>{{ sftime(postInfo.post_create_timestamp, '%Y年 %m月 %d日') }}</span>
+                    <span>{{ sftime(postInfo.post_create_timestamp, '%Y年 %m月 %d日 %H:%M') }}</span>
                 </div>
                 <div class="col s12 m10 offset-m1 post-content">
                     <div id="editor-wrapper"><textarea hidden>{{ postInfo.post_content }}</textarea></div>

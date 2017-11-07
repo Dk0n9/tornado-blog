@@ -27,8 +27,9 @@ function getChips(postID) {
         $.ajax({
             url: $.URL_CONFIG.post.tags_api_url,
             type: 'post',
+            async: false,
             data: {
-                'post_id': postID,
+                'postID': postID,
                 '_xsrf': $('input[name=_xsrf]').val()
             },
             success: function (response) {
@@ -41,6 +42,7 @@ function getChips(postID) {
     $.ajax({
         url: $.URL_CONFIG.post.tags_api_url,
         type: 'post',
+        async: false,
         data: {
             '_xsrf': $('input[name=_xsrf]').val()
         },
@@ -65,13 +67,11 @@ $(function () {
         mdEditor.settings.watch = false;  // 屏幕宽度小于一般桌面计算机尺寸时，默认关闭预览，可再次点击watch图标开启；
     }
 
+    var chipData = getChips($('#author').attr('data-id'));
     $('.chips').material_chip({  // 初始化文章标签模块
+        data: chipData['data'],
         autocompleteOptions: {
-            data: {
-                'Fuck': null,
-                'Microsoft': null,
-                'Google': null
-            },
+            data: chipData['autoCompleteData'],
             limit: Infinity,
             minLength: 1
         },
