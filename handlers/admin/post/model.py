@@ -98,7 +98,7 @@ class Model(object):
             return False
 
         try:
-            self._session.delete(postInfo)
+            self._session.delete(postInfo['post'])
             self._session.commit()
             return True
         except Exception, e:

@@ -115,32 +115,52 @@ span.badge.draft {
     border-radius: 2px;
 }
 
-.btn-info {
-    background-color: #29b6f6 !important;
-}
-
 .btn-success {
     background-color: #00ea20 !important;
+}
+
+.success-text {
+    color: #00ea20 !important;
 }
 
 .btn-warning {
     background-color: #ffbc10 !important;
 }
 
+.warning-text {
+    color: #ffbc10 !important;
+}
+
 .btn-danger {
     background-color: #f44336 !important;
+}
+
+.danger-text {
+    color: #f44336 !important;
 }
 
 .btn-primary {
     background-color: #2196f3 !important;
 }
 
+.primary-text {
+    color: #2196f3 !important;
+}
+
 .btn-dismiss {
     background-color: #78909c !important;
 }
 
+.dismiss-text {
+    color: #78909c !important;
+}
+
 .btn-teal {
     background-color: #009688 !important;
+}
+
+.teal-text {
+    color: #009688 !important;
 }
 
 .imgHover:hover {
@@ -225,4 +245,8 @@ span.badge.draft {
 
 #post-status a {
     color: #757575;
+}
+
+.toast span {
+    padding-right: 1.5rem;
 }

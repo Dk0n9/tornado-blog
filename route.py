@@ -19,6 +19,7 @@ def getRoutes(options):
                    url(r'^/admin/posts/info$', AdminPostInfo, dict(options), name='postInfo'),
                    url(r'^/admin/write$', AdminWritePost, dict(options), name='adminWrite'),
                    url(r'^/admin/posts/edit$', AdminPostEdit, dict(options), name='postEdit'),
+                   url(r'^/admin/posts/delete$', AdminPostDelete, dict(options), name='postDelete'),
                    url(r'^/admin/posts/tags$', AdminPostTags, dict(options), name='postTags'),
                    ])
 

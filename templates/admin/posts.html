@@ -28,7 +28,7 @@
                 </ul>
             </div>
             <div id="post-details" class="col s8 card-panel" style="display: none">
-                <p class="post-title">Card Title<i class="material-icons right">edit</i></p>
+                <p class="post-title">Post Title<i class="material-icons right">edit</i></p>
                 <hr class="grey-text text-lighten-2">
                 <div id="post-content"></div>
                 <div id="post-status">
@@ -70,6 +70,7 @@
     $(function () {
         $.URL_CONFIG.post.info_api_url = "{{ reverse_url('postInfo') }}";
         $.URL_CONFIG.post.edit_page_url = "{{ reverse_url('postEdit') }}";
+        $.URL_CONFIG.post.delete_page_url = "{{ reverse_url('postDelete') }}";
     });
 </script>
 
