@@ -1,39 +1,30 @@
-function setUndo() {
-    window.deleteUndo = true;
-    $(this).parent().fadeOut(300, function () {
-        $(this).remove();
-    });
-}
-
 function deletePost() {
     var postID = $('.post-delete').attr('data-id');
     var postTitle = $('.post-title').text().substr(0, $('.post-title').text().length - 21);
-    Materialize.toast('<span>删除文章：' + postTitle + '</span><a href="javascript:;" ' +
-        'onclick="setUndo()" class="yellow-text">撤销</a>', 4000, '', function () {
-        if (window.deleteUndo === false) {
-            $.ajax({
-                url: $.URL_CONFIG.post.delete_page_url,
-                type: 'post',
-                data: {
-                    'post_id': postID,
-                    '_xsrf': $('input[name=_xsrf]').val()
-                },
-                success: function (response) {
-                    if (response.status) {
-                        Materialize.toast(response.message, 1500, '');
-                        $('.post-link[data-id="' + postID + '"]').fadeOut(700, function () {
-                            $(this).remove()
-                        });
-                    } else {
-                        Materialize.toast(response.message, 1500, 'btn-danger');
-                    }
+    var isDelete = confirm('是否删除文章： ' + postTitle);
+    if (isDelete === true) {
+        $.ajax({
+            url: $.URL_CONFIG.post.delete_page_url,
+            type: 'post',
+            data: {
+                'post_id': postID,
+                '_xsrf': $('input[name=_xsrf]').val()
+            },
+            success: function (response) {
+                if (response.status) {
+                    Materialize.toast(response.message, 1500, '');
+                    $('.post-link[data-id="' + postID + '"]').fadeOut(700, function () {
+                        $(this).remove()
+                    });
+                    $('#post-details').fadeOut(700);
+                } else {
+                    Materialize.toast(response.message, 1500, 'btn-danger');
                 }
-            });
-        } else {
-            window.deleteUndo = false;
-            return true;
-        }
-    });
+            }
+        });
+    } else {
+        return true;
+    }
 }
 
 function showPostDetails(postID) {

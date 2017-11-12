@@ -1,7 +1,7 @@
 function login(url) {
-    let username = $('#user_prefix').val();
-    let password = $('#pass_prefix').val();
-    let _token = $('input[name=_xsrf]').val();
+    var username = $('#user_prefix').val();
+    var password = $('#pass_prefix').val();
+    var _token = $('input[name=_xsrf]').val();
     $.ajax({
         url: url,
         type: 'post',
