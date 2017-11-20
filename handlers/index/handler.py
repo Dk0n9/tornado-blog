@@ -7,6 +7,18 @@ import model
 from handlers import base
 
 
+class InstallHandler(base.BaseHandler):
+
+    def initialize(self, **kwargs):
+        super(InstallHandler, self).initialize(**kwargs)
+        self._dbOperate = model.Model(self.db)
+
+    def get(self, *args, **kwargs):
+        if self.isInstalled:
+            return self.write_error(404)
+        self.render('common/install.html')
+
+
 class IndexHandler(base.BaseHandler):
 
     def initialize(self, **kwargs):
@@ -22,7 +34,7 @@ class IndexHandler(base.BaseHandler):
 
         result = self._dbOperate.getPostsList(bool(self.current_user),
                                                        num=self.getSetting.setting_page_number, page=page)
-        self.render('templates/default/index.html', postList=result['result'])
+        self.render('templates/login.html', postsList=result['result'])
 
 
 class PostDetailHandler(base.BaseHandler):
@@ -41,4 +53,4 @@ class PostDetailHandler(base.BaseHandler):
             if not self.current_user:  # 无权限查看隐藏文章将返回404页面
                 self.write_error(404)
                 return None
-        self.render('templates/default/post.html', postInfo=info['post'], tags=info['tags'])
+        self.render('templates/post.html', postInfo=info['post'], tags=info['tags'])

@@ -1,4 +1,6 @@
 # coding: utf-8
+from os.path import dirname, isfile
+
 from tornado.web import RequestHandler
 
 from models.settings import Model as SettingModel
@@ -16,6 +18,17 @@ class BaseHandler(RequestHandler):
             self.functions = kwargs.get('functions')
             self.logging = kwargs.get('logging')
             self.siteTitle = self.db.query(SettingModel.setting_site_title).first()[0]
+
+    def prepare(self):
+        if self.isInstalled:
+            pass
+        else:
+            return self.redirect(self.reverse_url('blogInstall'))
+
+    @property
+    def isInstalled(self):
+        currentPath = dirname(__file__)
+        return isfile(currentPath + '/../install.lck')
 
     @property
     def getUserIP(self):

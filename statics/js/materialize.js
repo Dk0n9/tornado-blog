@@ -2320,7 +2320,7 @@ if (jQuery) {
           if (doneAnimating === true) returnToOriginal();
         });
 
-        // Put before in origin image to preserve z-index layering.
+        // Put before in origin image to preserve z-login layering.
         origin.before(overlay);
 
         // Set dimensions if needed
@@ -2361,7 +2361,7 @@ if (jQuery) {
           newHeight = windowHeight * 0.9;
         }
 
-        // Animate image + set z-index
+        // Animate image + set z-login
         if (origin.hasClass('responsive-img')) {
           origin.velocity({ 'max-width': newWidth, 'width': originalWidth }, { duration: 0, queue: false,
             complete: function () {
@@ -2647,8 +2647,8 @@ if (jQuery) {
         $this.append($indicator);
 
         if ($this.is(":visible")) {
-          // $indicator.css({"right": $tabs_width - ((index + 1) * $tab_width)});
-          // $indicator.css({"left": index * $tab_width});
+          // $indicator.css({"right": $tabs_width - ((login + 1) * $tab_width)});
+          // $indicator.css({"left": login * $tab_width});
           setTimeout(function () {
             $indicator.css({ "right": calcRightPos($active) });
             $indicator.css({ "left": calcLeftPos($active) });
@@ -5171,14 +5171,14 @@ if (jQuery) {
           }
         }
 
-        // This function will transition the slide to any index of the next slide
+        // This function will transition the slide to any login of the next slide
         function moveToSlide(index) {
           // Wrap around indices.
           if (index >= $slides.length) index = 0;else if (index < 0) index = $slides.length - 1;
 
           $active_index = $slider.find('.active').index();
 
-          // Only do if index changes
+          // Only do if login changes
           if ($active_index != index) {
             $active = $slides.eq($active_index);
             $caption = $active.find('.caption');
@@ -5508,7 +5508,7 @@ if (jQuery) {
           curr_options.data = [];
         }
         $chips.data('chips', curr_options.data);
-        $chips.attr('data-index', i);
+        $chips.attr('data-login', i);
         $chips.attr('data-initialized', true);
 
         if (!$chips.hasClass(self.SELS.CHIPS)) {
@@ -7928,7 +7928,7 @@ if (jQuery) {
       // Grab the first word from the string.
       var word = string.match(/\w+/)[0];
 
-      // If there's no month index, add it to the date object
+      // If there's no month login, add it to the date object
       if (!dateObject.mm && !dateObject.m) {
         dateObject.m = collection.indexOf(word) + 1;
       }
@@ -8058,7 +8058,7 @@ if (jQuery) {
     var calendar = this,
         firstDay = calendar.settings.firstDay ? 1 : 0;
 
-    // When we’re working with a weekday index, compare the days.
+    // When we’re working with a weekday login, compare the days.
     if (_.isInteger(one) && (_.isDate(two) || $.isArray(two))) {
       one = one % 7 + firstDay;
       return one === calendar.create(two).day + 1;
@@ -8302,7 +8302,7 @@ if (jQuery) {
             // The looped month and no classes.
             monthsCollection[loopedMonth], 0,
 
-            // Set the value and selected index.
+            // Set the value and selected login.
             'value=' + loopedMonth + (viewsetObject.month == loopedMonth ? ' selected' : '') + (viewsetObject.year == minLimitObject.year && loopedMonth < minLimitObject.month || viewsetObject.year == maxLimitObject.year && loopedMonth > maxLimitObject.month ? ' disabled' : '')];
           }
         }), settings.klass.selectMonth + ' browser-default', (isOpen ? '' : 'disabled') + ' ' + _.ariaAttr({ controls: calendar.$node[0].id + '_table' }) + ' ' + 'title="' + settings.labelMonthSelect + '"');
@@ -8367,7 +8367,7 @@ if (jQuery) {
               // The looped year and no classes.
               loopedYear, 0,
 
-              // Set the value and selected index.
+              // Set the value and selected login.
               'value=' + loopedYear + (focusedYear == loopedYear ? ' selected' : '')];
             }
           }), settings.klass.selectYear + ' browser-default', (isOpen ? '' : 'disabled') + ' ' + _.ariaAttr({ controls: calendar.$node[0].id + '_table' }) + ' ' + 'title="' + settings.labelYearSelect + '"');

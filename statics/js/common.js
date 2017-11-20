@@ -1,5 +1,11 @@
 $(function () {
-    $(".button-collapse").sideNav();  // 初始化导航栏
+    $('.button-collapse').sideNav();  // 初始化导航栏
+    $('nav li a.waves-effect').each(function () {
+        if (location.pathname == $(this).attr('href')) {
+            $(this).parent().addClass('active');
+            return true;
+        }
+    });
     $.URL_CONFIG = {
         post: {}
     };
@@ -22,5 +28,5 @@ $(function () {
         sequenceDiagram: true,  // 开启序列图功能
         emoji: false,  // 关闭 emoji功能
         path: '/statics/editor/lib/'
-    }
+    };
 });
