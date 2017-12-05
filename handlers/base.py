@@ -7,20 +7,26 @@ from models.settings import Model as SettingModel
 
 
 class BaseHandler(RequestHandler):
-
     db = None
     functions = None
     logging = None
 
     def initialize(self, **kwargs):
         if kwargs:
-            self.db = kwargs.get('db')
+            tempSETTINGS = kwargs.get('settings')
+            tempDB = kwargs.get('db')
+            self.db = tempDB.__call__(tempSETTINGS['database'])
             self.functions = kwargs.get('functions')
             self.logging = kwargs.get('logging')
-            self.siteTitle = self.db.query(SettingModel.setting_site_title).first()[0]
+            if not self.isInstalled:
+                self.siteTitle = ''
+            else:
+                self.siteTitle = self.db.query(SettingModel.setting_site_title).first()[0]
 
     def prepare(self):
         if self.isInstalled:
+            pass
+        elif self.request.uri == self.reverse_url('blogInstall'):
             pass
         else:
             return self.redirect(self.reverse_url('blogInstall'))
@@ -50,7 +56,7 @@ class BaseHandler(RequestHandler):
         if userName is None:
             return None
         try:
-            raw = self.db.query(SettingModel).filter(SettingModel.setting_user_name==userName).one()
+            raw = self.db.query(SettingModel).filter(SettingModel.setting_user_name == userName).one()
             return raw
         except Exception, e:
             return False
@@ -79,7 +85,6 @@ class BaseHandler(RequestHandler):
 
 
 class AdminHandler(BaseHandler):
-
     def initialize(self, **kwargs):
         super(AdminHandler, self).initialize(**kwargs)
 
