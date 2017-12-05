@@ -1,10 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    {% include "header.html" %}
+    <link type="text/css" rel="stylesheet" href="{{ static_url('css/install.css') }}" media="screen,projection"/>
+    <title>安装 Tornado-BLOG</title>
 </head>
-<body>
 
-</body>
+<main>
+    <div class="row container">
+        <div class="col s8 offset-s2" style="padding-top: 10%">
+            <div class="title center">安装</div>
+            <form class="col s12">
+                <ul class="tabs col s6 offset-s3">
+                    <li class="tab"><a href="#test1">&bull;</a></li>
+                    <li class="tab"><a class="active" href="#test2">&bull;</a></li>
+                    <li class="tab"><a href="#test3">&bull;</a></li>
+                    <li class="tab"><a href="#test4">&bull;</a></li>
+                </ul>
+                <div class="input-field col s12">
+                    <select>
+                        <option value="" disabled selected>选择数据库类型</option>
+                        <option value="1">MySQL</option>
+                        <option value="2">SQLite</option>
+                    </select>
+                    <label>Materialize Select</label>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <script type="text/javascript" src="//cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-alpha.1/js/materialize.min.js"></script>
+    <script type="text/javascript" src="{{ static_url('js/install.js') }}"></script>
+</footer>
 </html>

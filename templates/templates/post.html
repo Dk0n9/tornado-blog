@@ -42,9 +42,7 @@
 </main>
 
 <footer>
-    <script type="text/javascript" src="//cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
-    <script type="text/javascript" src="{{ static_url('js/materialize.min.js') }}"></script>
-    <script type="text/javascript" src="{{ static_url('js/common.js') }}"></script>
+    {% include "../common/footer.html" %}
     <!-- Editor.md 引入文件 -->
     <script type="text/javascript" src="{{ static_url('editor/lib/marked.min.js') }}"></script>
     <script type="text/javascript" src="{{ static_url('editor/lib/prettify.min.js') }}"></script>

@@ -1,0 +1,15 @@
+body {
+    background-color: #546e7a !important;
+}
+
+.title {
+    color: #ffffff;
+    font-size: 2rem;
+}
+
+.tabs .tab a {
+    color: #000 !important;
+    width: auto;
+    padding: 0 5px;
+    font-size: 2rem;
+}

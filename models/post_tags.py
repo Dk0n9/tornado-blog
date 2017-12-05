@@ -1,6 +1,6 @@
 # coding: utf-8
-from sqlalchemy import Column, ForeignKey
-from sqlalchemy.dialects.mysql.types import INTEGER, VARCHAR
+from sqlalchemy import Column
+from sqlalchemy.dialects.mysql.types import INTEGER
 
 import db
 
