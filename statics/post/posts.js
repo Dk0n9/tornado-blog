@@ -12,13 +12,21 @@ function deletePost() {
             },
             success: function (response) {
                 if (response.status) {
-                    Materialize.toast(response.message, 1500, '');
+                    M.toast({
+                        html: response.message,
+                        displayLength: 1500,
+                        classes: 'btn-success'
+                    });
                     $('.post-link[data-id="' + postID + '"]').fadeOut(700, function () {
                         $(this).remove()
                     });
                     $('#post-details').fadeOut(700);
                 } else {
-                    Materialize.toast(response.message, 1500, 'btn-danger');
+                    M.toast({
+                        html: response.message,
+                        displayLength: 1500,
+                        classes: 'btn-warning'
+                    });
                 }
             }
         });
@@ -63,11 +71,19 @@ function showPostDetails(postID) {
                 $('#post-timestamp p').text(new Date(parseInt(response.result.post_create_timestamp) * 1000).toLocaleString().replace(/:\d{1,2}$/, ' '));
                 $('#post-details').fadeIn(500);
             } else {
-                Materialize.toast(response.message, 1500, 'btn-danger');
+                M.toast({
+                    html: response.message,
+                    displayLength: 1500,
+                    classes: 'btn-warning'
+                });
             }
         },
         error: function (response) {
-            Materialize.toast('未知错误，请与管理员联系', 1500, 'btn-danger');
+            M.toast({
+                html: '未知错误，请与管理员联系',
+                displayLength: 1500,
+                classes: 'btn-warning'
+            });
         }
     })
 }

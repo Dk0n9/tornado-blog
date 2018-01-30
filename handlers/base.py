@@ -1,5 +1,5 @@
 # coding: utf-8
-from os.path import dirname, isfile
+from os.path import dirname, realpath, isfile
 
 from tornado.web import RequestHandler
 
@@ -31,10 +31,16 @@ class BaseHandler(RequestHandler):
         else:
             return self.redirect(self.reverse_url('blogInstall'))
 
+    def createLockFile(self):
+        filepath = realpath(dirname(__file__) + '/../')
+        fp = open(filepath + '/install.lck', 'w')
+        fp.write('tornado-Blog')
+        fp.close()
+
     @property
     def isInstalled(self):
-        currentPath = dirname(__file__)
-        return isfile(currentPath + '/../install.lck')
+        currentPath = realpath(dirname(__file__) + '/../')
+        return isfile(currentPath + '/install.lck')
 
     @property
     def getUserIP(self):

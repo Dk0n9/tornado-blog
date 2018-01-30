@@ -1,5 +1,5 @@
 $(function () {
-    $('.button-collapse').sideNav();  // 初始化导航栏
+    $('.sidenav').sidenav();  // 初始化导航栏
     $('nav li a.waves-effect').each(function () {
         if (location.pathname == $(this).attr('href')) {
             $(this).parent().addClass('active');

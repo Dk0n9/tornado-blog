@@ -25,6 +25,8 @@ class InstallHandler(base.BaseHandler):
             'result': ''
         }
 
+        if self.isInstalled:
+            return self.write_error(404)
         siteTitle = self.get_argument('title', '')
         user = self.get_argument('user', '')
         password = self.get_argument('pwd', '')
@@ -43,6 +45,7 @@ class InstallHandler(base.BaseHandler):
         try:
             result = self._dbOperate.setupSite(siteTitle, user, password)
             if result:
+                self.createLockFile()
                 message['status'] = True
                 message['message'] = u'安装成功'
             else:
@@ -67,7 +70,7 @@ class IndexHandler(base.BaseHandler):
 
         result = self._dbOperate.getPostsList(bool(self.current_user),
                                               num=self.getSetting.setting_page_number, page=page)
-        self.render('templates/login.html', postsList=result['result'])
+        self.render('templates/index.html', postsList=result['result'])
 
 
 class PostDetailHandler(base.BaseHandler):

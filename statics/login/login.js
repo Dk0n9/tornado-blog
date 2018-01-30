@@ -12,16 +12,25 @@ function login(url) {
         },
         success: function (response) {
             if (response.status) {
-                Materialize.toast(response.message, 1700, '', function () {
-                    window.location = response.result;
+                M.toast({
+                    html: response.message,
+                    displayLength: 1500,
+                    classes: 'btn-success',
+                    completeCallback: function () {
+                        window.location = response.result;
+                    }
                 });
             } else {
-                Materialize.toast(response.message, 1500, 'error');
+                M.toast({
+                    html: response.message,
+                    displayLength: 1500,
+                    classes: 'btn-warning'
+                });
             }
         }
     })
 }
 
 $(document).ready(function () {
-    $(".button-collapse").sideNav();
+    $(".button-collapse").sidenav();
 });

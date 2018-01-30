@@ -1,15 +1,11 @@
 body {
-    background-color: #546e7a !important;
+    background-color: #fff;
 }
 
-.title {
-    color: #ffffff;
-    font-size: 2rem;
+#container {
+    margin-top: 10%;
 }
 
-.tabs .tab a {
-    color: #000 !important;
-    width: auto;
-    padding: 0 5px;
-    font-size: 2rem;
+.card-title {
+    font-weight: 400 !important;
 }

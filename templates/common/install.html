@@ -7,25 +7,38 @@
 </head>
 
 <main>
-    <div class="row container">
-        <div class="col s8 offset-s2" style="padding-top: 10%">
-            <div class="title center">安装</div>
-            <form class="col s12">
-                <ul class="tabs col s6 offset-s3">
-                    <li class="tab"><a href="#test1">&bull;</a></li>
-                    <li class="tab"><a class="active" href="#test2">&bull;</a></li>
-                    <li class="tab"><a href="#test3">&bull;</a></li>
-                    <li class="tab"><a href="#test4">&bull;</a></li>
-                </ul>
-                <div class="input-field col s12">
-                    <select>
-                        <option value="" disabled selected>选择数据库类型</option>
-                        <option value="1">MySQL</option>
-                        <option value="2">SQLite</option>
-                    </select>
-                    <label>Materialize Select</label>
+    <div id="container" class="row container">
+        <div class="card grey lighten-4 col s6 offset-s3 z-depth-2">
+            <div class="card-content">
+                <h4 class="center" style="margin-top: 0;">安装 Tornado-BLOG</h4>
+                <div id="setup-container" class="col s12">
+                    <div class="input-field col s8">
+                        <i class="material-icons prefix">title</i>
+                        <input id="title" type="text" class="validate">
+                        <label for="title">站点标题</label>
+                    </div>
+                    <div class="input-field col s8">
+                        <i class="material-icons prefix">account_circle</i>
+                        <input id="user" type="text" class="validate">
+                        <label for="user">管理员用户名</label>
+                    </div>
+                    <div class="input-field col s8">
+                        <i class="material-icons prefix">lock</i>
+                        <input id="passwd" type="password" class="validate">
+                        <label for="passwd">管理员密码</label>
+                    </div>
+                    <div class="input-field col s8">
+                        <i class="material-icons prefix">lock</i>
+                        <input id="confirm" type="password" class="validate">
+                        <label for="confirm">重复管理员密码</label>
+                    </div>
                 </div>
-            </form>
+            </div>
+            <div class="card-action" style="clear: both;">
+                {% raw xsrf_form_html() %}
+                <a id="reset-btn" class="waves-effect waves-light btn btn-dismiss">重置</a>
+                <a id="setup-btn" class="waves-effect waves-light btn btn-primary right">安装</a>
+            </div>
         </div>
     </div>
 </main>
