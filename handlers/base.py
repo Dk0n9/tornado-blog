@@ -1,6 +1,4 @@
 # coding: utf-8
-from os.path import dirname, realpath, isfile
-
 from tornado.web import RequestHandler
 
 from models.settings import Model as SettingModel
@@ -18,29 +16,7 @@ class BaseHandler(RequestHandler):
             self.db = tempDB.__call__(tempSETTINGS['database'])
             self.functions = kwargs.get('functions')
             self.logging = kwargs.get('logging')
-            if not self.isInstalled:
-                self.siteTitle = ''
-            else:
-                self.siteTitle = self.db.query(SettingModel.setting_site_title).first()[0]
-
-    def prepare(self):
-        if self.isInstalled:
-            pass
-        elif self.request.uri == self.reverse_url('blogInstall'):
-            pass
-        else:
-            return self.redirect(self.reverse_url('blogInstall'))
-
-    def createLockFile(self):
-        filepath = realpath(dirname(__file__) + '/../')
-        fp = open(filepath + '/install.lck', 'w')
-        fp.write('tornado-Blog')
-        fp.close()
-
-    @property
-    def isInstalled(self):
-        currentPath = realpath(dirname(__file__) + '/../')
-        return isfile(currentPath + '/install.lck')
+            self.siteTitle = self.db.query(SettingModel.site_title).first()[0]
 
     @property
     def getUserIP(self):
@@ -62,7 +38,7 @@ class BaseHandler(RequestHandler):
         if userName is None:
             return None
         try:
-            raw = self.db.query(SettingModel).filter(SettingModel.setting_user_name == userName).one()
+            raw = self.db.query(SettingModel).filter(SettingModel.user_name == userName).one()
             return raw
         except Exception, e:
             return False
@@ -74,7 +50,8 @@ class BaseHandler(RequestHandler):
         namespace = super(BaseHandler, self).get_template_namespace()
         name = {
             'sftime': self.functions.formatTime,
-            'siteTitle': self.siteTitle
+            'siteTitle': self.siteTitle,
+            'ogp': {}  # 添加 Open Graph Protocol支持
         }
         namespace.update(name)
         return namespace

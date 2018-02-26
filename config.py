@@ -4,7 +4,7 @@ import logging
 import hashlib
 
 from common import functions
-from models.db import init
+from models import db
 from handlers import error
 from route import getRoutes
 
@@ -66,7 +66,8 @@ APPLICATION_SETTINGS = {
 
 # ROUTE CONFIG #
 routes = getRoutes({
-    'db': init(APPLICATION_SETTINGS['database']),
+    'db': db.init,
     'functions': functions,
-    'logging': APPLICATION_SETTINGS['logging']
+    'logging': APPLICATION_SETTINGS['logging'],
+    'settings': APPLICATION_SETTINGS
 })

@@ -27,8 +27,4 @@ def getRoutes(options):
                    url(r'^/post/\d{1,9}$', PostDetailHandler, dict(options), name='blogDetail')  # 文章详情页面
                    ])
 
-    # <-- INSTALL MODULE --> #
-    routes.extend([url(r'^/install$', InstallHandler, dict(options), name='blogInstall'),  # 安装页面
-                   ])
-
     return routes
