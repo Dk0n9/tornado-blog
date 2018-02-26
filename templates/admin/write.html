@@ -51,12 +51,22 @@
                         {% end %}
                     </div>
                     <div class="input-field col s6 m2">
+                        <i class="material-icons prefix">timeline</i>
+                        {% if editMode %}
+                        <input id="publish_date" type="text" class="datepicker" placeholder="日期"
+                               style="text-align: center;" value="{{ sftime(postInfo.post_create_timestamp, '%Y-%m-%d') }}">
+                        {% else %}
+                        <input id="publish_date" type="text" class="datepicker" placeholder="日期"
+                               style="text-align: center;">
+                        {% end %}
+                    </div>
+                    <div class="input-field col s6 m2">
                         <i class="material-icons prefix">access_time</i>
                         {% if editMode %}
-                        <input id="publish" type="text" class="timepicker" placeholder="发布日期"
+                        <input id="publish_time" type="text" class="timepicker" placeholder="时间"
                                style="text-align: center;" value="{{ sftime(postInfo.post_create_timestamp, '%H:%M') }}">
                         {% else %}
-                        <input id="publish" type="text" class="timepicker" placeholder="发布日期"
+                        <input id="publish_time" type="text" class="timepicker" placeholder="时间"
                                style="text-align: center;">
                         {% end %}
                     </div>

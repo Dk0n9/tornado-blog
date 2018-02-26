@@ -29,7 +29,7 @@ function getChips(postID) {
             type: 'post',
             async: false,
             data: {
-                'postID': postID,
+                'post_id': postID,
                 '_xsrf': $('input[name=_xsrf]').val()
             },
             success: function (response) {
@@ -68,25 +68,26 @@ $(function () {
     }
 
     var chipData = getChips($('#author').attr('data-id'));
-    $('.chips').material_chip({  // 初始化文章标签模块
-        data: chipData['data'],
-        autocompleteOptions: {
-            data: chipData['autoCompleteData'],
-            limit: Infinity,
-            minLength: 1
-        },
+    $('.chips').chips({  // 初始化文章标签模块
+        //data: chipData['data'],
+        // autocompleteOptions: {
+        //     data: chipData['autoCompleteData'],
+        //     limit: Infinity,
+        //     minLength: 1
+        // },
         placeholder: '输入文章标签'
     });
 
-    $('.timepicker').pickatime({
+    $('.timepicker').timepicker({
         default: 'now', // default time, 'now' or '13:14' e.g.
-        donetext: '保存',
-        cleartext: '清除',
-        canceltext: '取消',
+        doneText: '保存',
+        clearText: '清除',
+        cancelText: '取消',
         autoclose: false,
         ampmclickable: true,
         twelvehour: false,
-        vibrate: true
+        vibrate: true,
+        twelveHour: false
     });
 
     $('.publish-now').on('click', function () {  // [现在发布]按钮点击事件
@@ -97,15 +98,28 @@ $(function () {
             data: info,
             success: function (response) {
                 if (response.status) {
-                    Materialize.toast(response.message, 1700, 'btn-primary', function () {
-                        window.location = response.result;
+                    M.toast({
+                        html: response.message,
+                        displayLength: 1500,
+                        classes: 'btn-success',
+                        completeCallback: function () {
+                            window.location = response.result;
+                        }
                     });
                 } else {
-                    Materialize.toast(response.message, 1500, 'btn-danger');
+                    M.toast({
+                        html: response.message,
+                        displayLength: 1500,
+                        classes: 'btn-warning'
+                    });
                 }
             },
             error: function (response) {
-                Materialize.toast('未知错误，请与管理员联系', 1500, 'btn-danger');
+                M.toast({
+                    html: '未知错误，请与管理员联系',
+                    displayLength: 1500,
+                    classes: 'btn-danger'
+                });
             }
         });
     });
@@ -118,15 +132,28 @@ $(function () {
             data: info,
             success: function (response) {
                 if (response.status) {
-                    Materialize.toast(response.message, 1700, 'btn-primary', function () {
-                        window.location = response.result
+                    M.toast({
+                        html: response.message,
+                        displayLength: 1500,
+                        classes: 'btn-success',
+                        completeCallback: function () {
+                            window.location = response.result;
+                        }
                     });
                 } else {
-                    Materialize.toast(response.message, 1500, 'btn-danger');
+                    M.toast({
+                        html: response.message,
+                        displayLength: 1500,
+                        classes: 'btn-warning'
+                    });
                 }
             },
             error: function (response) {
-                Materialize.toast('未知错误，请与管理员联系', 1500, 'btn-danger');
+                M.toast({
+                    html: '未知错误，请与管理员联系',
+                    displayLength: 1500,
+                    classes: 'btn-danger'
+                });
             }
         });
     });
@@ -146,15 +173,28 @@ $(function () {
             data: info,
             success: function (response) {
                 if (response.status) {
-                    Materialize.toast(response.message, 1700, 'btn-primary', function () {
-                        window.location = response.result
+                    M.toast({
+                        html: response.message,
+                        displayLength: 1500,
+                        classes: 'btn-success',
+                        completeCallback: function () {
+                            window.location = response.result;
+                        }
                     });
                 } else {
-                    Materialize.toast(response.message, 1500, 'btn-danger');
+                    M.toast({
+                        html: response.message,
+                        displayLength: 1500,
+                        classes: 'btn-warning'
+                    });
                 }
             },
             error: function (response) {
-                Materialize.toast('未知错误，请与管理员联系', 1500, 'btn-danger');
+                M.toast({
+                    html: '未知错误，请与管理员联系',
+                    displayLength: 1500,
+                    classes: 'btn-danger'
+                });
             }
         });
     });

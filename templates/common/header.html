@@ -3,3 +3,17 @@
 <link type="text/css" rel="stylesheet" href="{{ static_url('css/materialize.css') }}" media="screen,projection"/>
 <link type="text/css" rel="stylesheet" href="{{ static_url('css/common.css') }}" media="screen,projection"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="generator" content="tornado-blog"/>
+{% if ogp %}
+    {# Open Graph Protocol #}
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="{{ ogp['title'] }}"/>
+    <meta property="og:site_name" content="{{ siteTitle }}"/>
+    <meta property="og:image" content=""/>
+    <meta property="og:url" content="{{ ogp['url'] }}"/>
+    <meta property="og:description" content="{{ ogp['description'] }}"/>
+    <meta property="article:published_time" content="{{ ogp['published_time'] }}"/>
+    {% for author in ogp['author'] %}<meta property="article:author" content="{{ author }}"/>{% end %}
+    {% for tag in ogp['tags'] %}<meta property="article:tag" content="{{ tag }}"/>{% end %}
+    {% for author in ogp['author'] %}<meta property="article:published_first" content="{{ author }},{{ ogp['url'] }}"/>{% end %}
+{% end %}

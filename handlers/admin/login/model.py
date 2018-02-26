@@ -10,8 +10,8 @@ class Model(object):
 
     def checkUser(self, userName, userPwd):
         try:
-            raw = self._session.query(settingModel).filter(settingModel.setting_user_name == userName,
-                                                           settingModel.setting_user_pwd == userPwd).one()
+            raw = self._session.query(settingModel).filter(settingModel.user_name == userName,
+                                                           settingModel.user_pwd == userPwd).one()
             if raw:
                 return True
             return False
@@ -19,5 +19,5 @@ class Model(object):
             return False
 
     def getPostCount(self):
-        raw = self._session.query(postModel.post_id).count()
+        raw = self._session.query(postModel.id).count()
         return raw

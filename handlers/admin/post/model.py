@@ -11,13 +11,13 @@ class Model(object):
         self._session = dbSession
 
     def getPostLists(self):
-        raw = self._session.query(postModel.post_id, postModel.post_title, postModel.post_summary,
-                                  postModel.post_is_draft).order_by(db.DESC(postModel.post_create_timestamp)).all()
+        raw = self._session.query(postModel.id, postModel.title, postModel.summary,
+                                  postModel.is_draft).order_by(db.DESC(postModel.create_timestamp)).all()
         return raw
 
     def getPostInfoByID(self, postID):
         try:
-            raw = self._session.query(postModel).filter(postModel.post_id==postID).one()
+            raw = self._session.query(postModel).filter(postModel.id == postID).one()
             tagList = self.getTagsByPostID(postID)
             return {
                 'post': raw,
@@ -33,19 +33,19 @@ class Model(object):
             return False
 
         postInfo = info['post']
-        postInfo.post_title = title
-        postInfo.post_summary = summary
-        if postInfo.post_author != author:
-            postInfo.post_author = author
-        postInfo.post_content = content
+        postInfo.title = title
+        postInfo.summary = summary
+        if postInfo.author != author:
+            postInfo.author = author
+        postInfo.content = content
         if isDraft and isDraft != '0':
-            postInfo.post_is_draft = 1
+            postInfo.is_draft = 1
         else:
-            postInfo.post_is_draft = 0
+            postInfo.is_draft = 0
         if isHidden and isHidden != '0':
-            postInfo.post_is_hidden = 1
+            postInfo.is_hidden = 1
         else:
-            postInfo.post_is_hidden = 0
+            postInfo.is_hidden = 0
 
         # 同步更新文章关联的标签
         if tags:
@@ -61,14 +61,14 @@ class Model(object):
     def addPostByDict(self, info):
         """添加文章"""
         # 调整数据格式
-        if info['post_is_draft'] and info['post_is_draft'] != '0':
-            info['post_is_draft'] = 1
+        if info['is_draft'] and info['is_draft'] != '0':
+            info['is_draft'] = 1
         else:
-            info['post_is_draft'] = 0
-        if info['post_is_hidden'] and info['post_is_hidden'] != '0':
-            info['post_is_hidden'] = 1
+            info['is_draft'] = 0
+        if info['is_hidden'] and info['is_hidden'] != '0':
+            info['is_hidden'] = 1
         else:
-            info['post_is_hidden'] = 0
+            info['is_hidden'] = 0
         # 把文章标签写入tbl_tags表中
         tagIDsList = self.addTagByList(info.pop('tag_name'))
 
@@ -83,7 +83,7 @@ class Model(object):
 
         # 在tbl_post_tags表中添加文章与标签的关联
         for tagID in tagIDsList:
-            record = postTagsModel(tbl_posts_post_id=postRecord.post_id, tbl_tags_tag_id=tagID)
+            record = postTagsModel(post_id=postRecord.id, tag_id=tagID)
             try:
                 self._session.add(record)
             except Exception, e:
@@ -116,7 +116,7 @@ class Model(object):
             try:
                 self._session.add(record)
                 self._session.flush()
-                result.append(record.tag_id)
+                result.append(record.id)
             except Exception, e:
                 continue
         self._session.commit()
@@ -127,7 +127,7 @@ class Model(object):
         allTags = self.getAllTags()
         allTagsList = {}
         for tagModel in allTags:
-            allTagsList[tagModel.tag_name] = tagModel.tag_id
+            allTagsList[tagModel.tag_name] = tagModel.id
         # 将新的标签集与所有标签集做差集，得出需要插入到tbl_tags表的标签
         insertTagsList = list(set(newTags).difference(set(allTagsList.keys())))
         if insertTagsList:
@@ -135,7 +135,7 @@ class Model(object):
         else:
             insertedTagsResult = []
         # 删除该文章的所有标签关联记录
-        self._session.query(postTagsModel).filter(postTagsModel.tbl_posts_post_id==postID).delete()
+        self._session.query(postTagsModel).filter(postTagsModel.post_id == postID).delete()
         # 将newTags中的已存在标签与allTagsList做交集，得出已存在标签的tag_id
         mixedNameList = list(set(newTags).intersection(set(allTagsList.keys())))
         mixedIDlist = [allTagsList.pop(mixedName) for mixedName in mixedNameList]
@@ -143,7 +143,7 @@ class Model(object):
         mixedIDlist.extend(insertedTagsResult)
         # 遍历 mixedIDlist添加文章与标签关联关系
         for tagID in mixedIDlist:
-            tempModel = postTagsModel(tbl_posts_post_id=postID, tbl_tags_tag_id=tagID)
+            tempModel = postTagsModel(post_id=postID, tag_id=tagID)
             self._session.add(tempModel)
         try:
             self._session.commit()
@@ -155,8 +155,9 @@ class Model(object):
     def getTagsByPostID(self, postID):
         """根据文章ID获取该文章关联的所有标签"""
         result = []
-        raw = self._session.query(tagModel.tag_name).join(postTagsModel, tagModel.tag_id==postTagsModel.tbl_tags_tag_id).\
-            filter(postTagsModel.tbl_posts_post_id == postID).all()
+        raw = self._session.query(tagModel.tag_name).join(postTagsModel,
+                                                          tagModel.id == postTagsModel.tag_id). \
+            filter(postTagsModel.post_id == postID).all()
         for tag in raw:
             result.append(tag.tag_name)
         return result

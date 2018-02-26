@@ -34,14 +34,14 @@ class AdminWritePost(base.AdminHandler):
             'result': ''
         }
         info = {
-            'post_title': self.get_argument('post_title', '').encode('utf8'),
-            'post_author': self.get_argument('post_author', ''),
-            'post_summary': self.get_argument('post_summary', ''),
-            'post_content': self.get_argument('post_content', ''),
-            'post_is_draft': self.get_argument('post_is_draft', ''),
-            'post_is_hidden': self.get_argument('post_is_hidden', ''),
+            'title': self.get_argument('post_title', '').encode('utf8'),
+            'author': self.get_argument('post_author', ''),
+            'summary': self.get_argument('post_summary', ''),
+            'content': self.get_argument('post_content', ''),
+            'is_draft': self.get_argument('post_is_draft', ''),
+            'is_hidden': self.get_argument('post_is_hidden', ''),
             'tag_name': self.get_argument('tag_name', ''),
-            'post_create_timestamp': self.functions.getNowTime()
+            'create_timestamp': self.functions.getNowTime()
         }
         if info['tag_name']:
             info['tag_name'] = info['tag_name'].split(',')  # 避免出现长度为1的无用list
@@ -94,7 +94,7 @@ class AdminPostEdit(base.AdminHandler):
         self._dbOperate = model.Model(self.db)
 
     def get(self, *args, **kwargs):
-        postID = self.get_query_argument('id', '')
+        postID = self.get_query_argument('post_id', '')
         info = self._dbOperate.getPostInfoByID(postID)
         if not info:
             return self.write_error(404)
@@ -117,7 +117,7 @@ class AdminPostEdit(base.AdminHandler):
         postTags = self.get_argument('tag_name', '').split(',')
 
         isSuccess = self._dbOperate.updatePostInfo(postID, postTitle, postAuthor, postSummary,
-                                                      postContent, postIsDraft, postIsHidden, postTags)
+                                                   postContent, postIsDraft, postIsHidden, postTags)
         if not isSuccess:
             message['message'] = u'更新失败'
             return self.write(message)
@@ -168,7 +168,7 @@ class AdminPostTags(base.AdminHandler):
             'result': ''
         }
 
-        postID = self.get_argument('postID', '')
+        postID = self.get_argument('post_id', '')
         if not postID:
             tags = self._dbOperate.getAllTags()  # tags的格式: [tag, ...]，tag的类型为model
             # 这里转换成前端chip组件autocompleteOptions参数需要的数据格式: { tag_name: null, ...}
