@@ -4,7 +4,7 @@
     {% include "../common/header.html" %}
     <link type="text/css" rel="stylesheet" href="{{ static_url('css/admin.css') }}" media="screen,projection"/>
     <link type="text/css" rel="stylesheet" href="{{ static_url('editor/css/editormd.min.css') }}"/>
-    <title>文章列表 - {{ siteTitle }}</title>
+    <title>{{ title }} - {{ siteTitle }}</title>
 </head>
 
 <main>
@@ -14,15 +14,15 @@
             <div id="post-list" class="col s4 card-panel z-depth-2">
                 <ul class="collection">
                     {% for postInfo in postLists %}
-                        <a href="#" class="collection-item avatar post-link" data-id="{{ postInfo.post_id }}">
+                    <a href="#" class="collection-item avatar post-link" data-id="{{ postInfo.id }}">
                             <i class="material-icons blue-grey circle">chrome_reader_mode</i>
                             <span class="black-text">
-                                {{ postInfo.post_title }}
-                                {% if postInfo.post_is_draft %}
+                                {{ postInfo.title }}
+                                {% if postInfo.is_draft %}
                                     <span class="draft badge">草稿</span>
                                 {% end %}
                             </span>
-                            <p class="grey-text text-darken-1 truncate">{{ postInfo.post_summary }}&nbsp;</p>
+                        <p class="grey-text text-darken-1 truncate">{{ postInfo.summary }}&nbsp;</p>
                         </a>
                     {% end %}
                 </ul>

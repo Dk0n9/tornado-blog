@@ -15,7 +15,7 @@ class AdminLoginHandler(base.BaseHandler):
 
     def get(self, *args, **kwargs):
         if not self.current_user:
-            self.render('admin/login.html')
+            self.render('admin/login.html', title='登录')
         else:
             self.redirect(self.reverse_url('adminPosts'))
 

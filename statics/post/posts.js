@@ -7,7 +7,7 @@ function deletePost() {
             url: $.URL_CONFIG.post.delete_page_url,
             type: 'post',
             data: {
-                'post_id': postID,
+                'postID': postID,
                 '_xsrf': $('input[name=_xsrf]').val()
             },
             success: function (response) {
@@ -40,7 +40,7 @@ function showPostDetails(postID) {
         url: $.URL_CONFIG.post.info_api_url,
         type: 'post',
         data: {
-            'post_id': postID,
+            'postID': postID,
             '_xsrf': $('input[name=_xsrf]').val()
         },
         success: function (response) {
@@ -50,25 +50,25 @@ function showPostDetails(postID) {
                 var viewHTML = '<a href="/post/' + postID + '" target="_blank" class="cyan-text"><i class="material-icons right">open_in_new</i></a>';
                 var editHTML = '<a href="' + $.URL_CONFIG.post.edit_page_url + '?id=' + postID + '" class="primary-text" ><i class="material-icons right">edit</i></a>';
                 var deleteBtn = '<a href="javascript:;" class="post-delete danger-text" data-id="' + postID + '" onclick="deletePost()"><i class="material-icons right">delete</i></a>';
-                $('#post-details .post-title').html(response.result.post_title + viewHTML + deleteBtn + editHTML);
+                $('#post-details .post-title').html(response.result.title + viewHTML + deleteBtn + editHTML);
 
                 if (window.postEditor) {
                     window.postEditor.remove();
                 }
                 $('#post-content').append('<div id="editor-wrapper"><textarea hidden></textarea></div>');
-                $.EDITOR_CONFIG.markdown = response.result.post_content;
+                $.EDITOR_CONFIG.markdown = response.result.content;
                 $.EDITOR_CONFIG.tocm = true;
                 window.postEditor = editormd.markdownToHTML('editor-wrapper', $.EDITOR_CONFIG);
 
-                $('#post-browsers p').text(response.result.post_browser);
-                if (!response.result.post_is_hidden) {
+                $('#post-browsers p').text(response.result.browser);
+                if (!response.result.is_hidden) {
                     $('#post-hidden i').text('visibility');
                     $('#post-hidden p').text('所有人可见');
                 } else {
                     $('#post-hidden i').text('visibility_off');
                     $('#post-hidden p').text('仅自己可见');
                 }
-                $('#post-timestamp p').text(new Date(parseInt(response.result.post_create_timestamp) * 1000).toLocaleString().replace(/:\d{1,2}$/, ' '));
+                $('#post-timestamp p').text(new Date(parseInt(response.result.create_timestamp) * 1000).toLocaleString().replace(/:\d{1,2}$/, ' '));
                 $('#post-details').fadeIn(500);
             } else {
                 M.toast({

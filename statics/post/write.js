@@ -1,22 +1,22 @@
 function getInfo() {
     var info = {
-        post_id: $('#author').attr('data-id') ? $('#author').attr('data-id') : '0',
-        post_title: $('#title').val(),
-        post_author: $('#author').val(),
-        post_summary: $('#summary').val(),
-        post_content: $('#content').val(),
-        post_is_draft: '0',
-        post_is_hidden: $('#hidden').is(':checked') ? '1' : '0',
-        tag_name: '',
-        post_create_time: $('#publish').val(),
+        postID: $('#author').attr('data-id') ? $('#author').attr('data-id') : '0',
+        postTitle: $('#title').val(),
+        postAuthor: $('#author').val(),
+        postSummary: $('#summary').val(),
+        postContent: $('#content').val(),
+        postIsDraft: '0',
+        postIsHidden: $('#hidden').is(':checked') ? '1' : '0',
+        tagName: '',
+        postCreateTime: $('#publish_date').val() + ' ' + $('#publish_time').val(),
         _xsrf: $('input[name=_xsrf]').val()
     };
     $('.chips .chip').each(function () {
         var str = $(this).text();
         str = str.substring(0, str.length - 5);
-        info.tag_name += str + ',';
+        info.tagName += str + ',';
     });
-    info.tag_name = info.tag_name.substring(0, info.tag_name.length - 1);
+    info.tagName = info.tagName.substring(0, info.tagName.length - 1);
     return info;
 }
 
@@ -29,7 +29,7 @@ function getChips(postID) {
             type: 'post',
             async: false,
             data: {
-                'post_id': postID,
+                'postID': postID,
                 '_xsrf': $('input[name=_xsrf]').val()
             },
             success: function (response) {
@@ -78,11 +78,13 @@ $(function () {
         placeholder: '输入文章标签'
     });
 
+    $('.datepicker').datepicker({
+        format: 'yyyy/mm/dd',
+        firstDay: 1  // Set Monday as the first day of week
+    });
+
     $('.timepicker').timepicker({
         default: 'now', // default time, 'now' or '13:14' e.g.
-        doneText: '保存',
-        clearText: '清除',
-        cancelText: '取消',
         autoclose: false,
         ampmclickable: true,
         twelvehour: false,
@@ -160,9 +162,9 @@ $(function () {
 
     $('.save-draft').on('click', function () {  // [存为草稿]按钮点击事件
         var info = getInfo();
-        info.post_is_draft = '1';
+        info.postIsDraft = '1';
         var tempURL = '';
-        if (info.post_id === '0') {
+        if (info.postID === '0') {
             tempURL = $.URL_CONFIG.post.write_api_url;
         } else {
             tempURL = $.URL_CONFIG.post.update_api_url;

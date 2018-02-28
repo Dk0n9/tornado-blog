@@ -3,7 +3,7 @@
 <head>
     {% include "../common/header.html" %}
     <link type="text/css" rel="stylesheet" href="{{ static_url('editor/css/editormd.min.css') }}"/>
-    <title>{{ postInfo.post_title }} - {{ siteTitle }}</title>
+    <title>{{ postInfo.title }} - {{ siteTitle }}</title>
 </head>
 
 <main>
@@ -13,12 +13,12 @@
     <div class="row container">
         <div class="col s12 m10 offset-m1">
             <div class="col s12 post">
-                <div class="title"><h2>{{ postInfo.post_title }}</h2></div>
+                <div class="title"><h2>{{ postInfo.title }}</h2></div>
                 <div class="col s6 offset-s3 banner" style="text-align: center">
-                    <span>{{ sftime(postInfo.post_create_timestamp, '%Y年 %m月 %d日 %H:%M') }}</span>
+                    <span>{{ sftime(postInfo.create_timestamp, '%Y/%m/%d %H:%M') }}</span>
                 </div>
                 <div class="col s12 m10 offset-m1 post-content">
-                    <div id="editor-wrapper"><textarea hidden>{{ postInfo.post_content }}</textarea></div>
+                    <div id="editor-wrapper"><textarea hidden>{{ postInfo.content }}</textarea></div>
                 </div>
                 <div class="col s12 m10 offset-m1 tags">
                     <p>文章标签：

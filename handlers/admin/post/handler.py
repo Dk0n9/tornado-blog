@@ -2,6 +2,7 @@
 """
 后台文章管理模块和撰写文章页面处理
 """
+import time
 
 import model
 from handlers import base
@@ -15,7 +16,7 @@ class AdminPostsHandler(base.AdminHandler):
 
     def get(self, *args, **kwargs):
         postLists = self._dbOperate.getPostLists()
-        self.render('admin/posts.html', postLists=postLists)
+        self.render('admin/posts.html', title='文章列表', postLists=postLists)
 
 
 class AdminWritePost(base.AdminHandler):
@@ -25,7 +26,7 @@ class AdminWritePost(base.AdminHandler):
         self._dbOperate = model.Model(self.db)
 
     def get(self, *args, **kwargs):
-        self.render('admin/write.html', editMode=0)
+        self.render('admin/write.html', title='撰写文章', editMode=0)
 
     def post(self, *args, **kwargs):
         message = {
@@ -34,17 +35,23 @@ class AdminWritePost(base.AdminHandler):
             'result': ''
         }
         info = {
-            'title': self.get_argument('post_title', '').encode('utf8'),
-            'author': self.get_argument('post_author', ''),
-            'summary': self.get_argument('post_summary', ''),
-            'content': self.get_argument('post_content', ''),
-            'is_draft': self.get_argument('post_is_draft', ''),
-            'is_hidden': self.get_argument('post_is_hidden', ''),
-            'tag_name': self.get_argument('tag_name', ''),
-            'create_timestamp': self.functions.getNowTime()
+            'title': self.get_argument('postTitle', '').encode('utf8'),
+            'author': self.get_argument('postAuthor', ''),
+            'summary': self.get_argument('postSummary', ''),
+            'content': self.get_argument('postContent', ''),
+            'is_draft': self.get_argument('postIsDraft', ''),
+            'is_hidden': self.get_argument('postIsHidden', ''),
+            'tag_name': self.get_argument('tagName', ''),
+            'create_timestamp': self.get_argument('postCreateTime', '')  # self.functions.getNowTime()
         }
         if info['tag_name']:
             info['tag_name'] = info['tag_name'].split(',')  # 避免出现长度为1的无用list
+        # 转换文章发布日期的格式
+        try:
+            info['create_timestamp'] = time.mktime(time.strptime(info['create_timestamp'], '%Y/%m/%d %H:%M'))
+        except Exception, e:
+            message['message'] = u'参数错误'
+            return self.write(message)
 
         isSuccess = self._dbOperate.addPostByDict(info)
         if not isSuccess:
@@ -70,7 +77,7 @@ class AdminPostInfo(base.AdminHandler):
             'result': ''
         }
 
-        postID = self.get_argument('post_id', '')
+        postID = self.get_argument('postID', '')
         if not postID or not postID.isdigit():
             message['message'] = u'文章ID有误'
             return self.write(message)
@@ -94,11 +101,12 @@ class AdminPostEdit(base.AdminHandler):
         self._dbOperate = model.Model(self.db)
 
     def get(self, *args, **kwargs):
-        postID = self.get_query_argument('post_id', '')
+        postID = self.get_query_argument('id', '')
         info = self._dbOperate.getPostInfoByID(postID)
         if not info:
             return self.write_error(404)
-        self.render('admin/write.html', postInfo=info['post'], tags=info['tags'], editMode=1)
+        title = u'编辑文章' + info['post'].title
+        self.render('admin/write.html', title=title, postInfo=info['post'], tags=info['tags'], editMode=1)
 
     def post(self, *args, **kwargs):
         message = {
@@ -107,14 +115,15 @@ class AdminPostEdit(base.AdminHandler):
             'result': ''
         }
 
-        postID = self.get_argument('post_id', '')
-        postTitle = self.get_argument('post_title', '')
-        postAuthor = self.get_argument('post_author', '')
-        postSummary = self.get_argument('post_summary', '')
-        postContent = self.get_argument('post_content', '')
-        postIsDraft = self.get_argument('post_is_draft', '')
-        postIsHidden = self.get_argument('post_is_hidden', '')
-        postTags = self.get_argument('tag_name', '').split(',')
+        postID = self.get_argument('postID', '')
+        postTitle = self.get_argument('postTitle', '')
+        postAuthor = self.get_argument('postAuthor', '')
+        postSummary = self.get_argument('postSummary', '')
+        postContent = self.get_argument('postContent', '')
+        postIsDraft = self.get_argument('postIsDraft', '')
+        postIsHidden = self.get_argument('postIsHidden', '')
+        postTags = self.get_argument('tagName', '').split(',')
+        # 修改postCreateTime暂未实现
 
         isSuccess = self._dbOperate.updatePostInfo(postID, postTitle, postAuthor, postSummary,
                                                    postContent, postIsDraft, postIsHidden, postTags)
@@ -140,7 +149,7 @@ class AdminPostDelete(base.AdminHandler):
             'result': ''
         }
 
-        postID = self.get_argument('post_id', '')
+        postID = self.get_argument('postID', '')
         if not postID or not postID.isdigit():
             message['message'] = u'文章ID有误'
             return self.write(message)
@@ -168,7 +177,7 @@ class AdminPostTags(base.AdminHandler):
             'result': ''
         }
 
-        postID = self.get_argument('post_id', '')
+        postID = self.get_argument('postID', '')
         if not postID:
             tags = self._dbOperate.getAllTags()  # tags的格式: [tag, ...]，tag的类型为model
             # 这里转换成前端chip组件autocompleteOptions参数需要的数据格式: { tag_name: null, ...}

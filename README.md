@@ -3,12 +3,25 @@
 [![Python](https://img.shields.io/badge/python-v2.7-blue.svg?style=flat-square)](https://www.python.org/)
 [![GitHub license](https://img.shields.io/github/license/Dk0n9/tornado-blog.svg?style=flat-square)](https://github.com/Dk0n9/tornado-blog/blob/master/LICENSE)
 
-> 基于 Tornado框架构建的博客程序，旨在方便使用者快速创建自己的博客/门户网站。
+### This system is not yet ready for users.
+> A simple blog based on Tornado
+> 
+> Written and maintained by dk0n9, ph4nt0merd@gmail.com
 
 
 ---
-#### 未来的更新
-* 增加模板系统，使用者可以在后台自由更换模板
+### Usage
+#### Requirements
 
-#### 说明
-* 本程序无意增加评论功能，在`post.html`已有预留区域可以加入第三方评论服务（如`Disqus`、`多说`）。
+#### Configure
+*Database configuration*
+
+view `config.py`
+
+#### Installation
+
+### TODO
+* add templates module
+
+### Description
+* Blog comment: you can add third-party service at `./templates/templates/post.html` (eg. Disqus)

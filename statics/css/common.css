@@ -13,6 +13,14 @@ nav {
     }
 }
 
+.sidenav-overlay {
+    z-index: 996;
+}
+
+.editormd-dialog {
+    height: auto !important;
+}
+
 .post {
     margin-bottom: 4rem;
 }
@@ -113,6 +121,10 @@ span.badge.draft {
     color: #fff;
     background-color: #f44336;
     border-radius: 2px;
+}
+
+.iron-blue {
+    background-color: #68768A !important;
 }
 
 .btn-success {
